@@ -1,226 +1,361 @@
-# 部分题目
+# 算法习题
 
-## 01-简介
+## 第一章：复杂度分析
 
-### Task 1
+### 题目1：斐波那契数列的快速幂
+利用 `power2()` 的思想，设计在 $O(\log n)$ 时间内计算 `fib(n)` 的算法。
 
-- 根据`power2()`，设计一个算法，在 O(logn)时间内计算出`fib(n)`。其中，`power2()`方法是用来求幂函数$2^n$，实现如下：
+```cpp
+// power2: compute 2^n in O(logn)
+long long sqr(long long a) { return a * a; }
+long long power2(int n) {
+    if (0 == n) return 1;
+    return (n & 1) ? sqr(power2(n >> 1)) << 1 : sqr(power2(n >> 1));
+}
+```
 
-	```cpp
-	//power2
-	long long sqr ( long long a ) { return a * a; } //平方：若是连续执行，很快就会数值溢出！
-	long long power2 ( int n ) { //幂函数2^n算法（优化递归版），n >= 0
-	    if ( 0 == n ) return 1; //递归基；否则，视n的奇偶分别递归
-	    return ( n & 1 ) ? sqr ( power2 ( n >> 1 ) ) << 1 : sqr ( power2 ( n >> 1 ) );
-	} //O(logn) = O(r)，r为输入指数n的比特位数
-	```
-
-	> 解：由于斐波那契数列可以使用矩阵乘法来求值：
-	>
-	> $$
-	> 	\begin{pmatrix}    0 & 1 \\    1 & 1  \end{pmatrix} \cdot\begin{pmatrix}    fib(n-1) \\fib(n)  \end{pmatrix} =\begin{pmatrix}    fib(n) \\    fib(n+1)  \end{pmatrix}
-	> $$
-	>
-	> 则可以得到如下公式：
-	>
-	> $$
-	> 	\left(\begin{array}{c}fib(n) \\fib(n+1)\end{array}\right)=\left(\begin{array}{ll}0 & 1 \\1 & 1\end{array}\right)^n\left(\begin{array}{l}fib(0) \\fib(1)\end{array}\right)=\left(\begin{array}{ll}0 & 1 \\1 & 1\end{array}\right)^n\left(\begin{array}{l}0 \\1\end{array}\right)
-	> $$
-	>
-	> 而矩阵乘法的时间复杂度为常数时间。则总的时间复杂度为$O(\log n)$。
-
-### Task 2
-
-- 对中华更相减损术算法的分析：
-
-	```cpp
-	long long gcdCN ( long long a, long long b ) { //assert: 0 < min(a, b)
-	    int r = 0; //a和b的2^r形式的公因子
-	    while ( ! ( ( a & 1 ) || ( b & 1 ) ) ) { //若a和b都是偶数
-	        a >>= 1; b >>= 1; r ++; //则同时除2（右移），并累加至r
-	    } //以下，a和b至多其一为偶
-	    while ( 1 ) {
-	        while ( ! ( a & 1 ) ) a >>= 1; //若a偶（b奇），则剔除a的所有因子2
-	        while ( ! ( b & 1 ) ) b >>= 1; //若b偶（a奇），则剔除b的所有因子2
-	        ( a > b ) ? a = a - b : b = b - a; //简化为：gcd(max(a, b) - min(a, b), min(a, b))
-	        if ( 0 == a ) return b << r; //简化至平凡情况：gcd(0, b) = b
-	        if ( 0 == b ) return a << r; //简化至平凡情况：gcd(a, 0) = a
-	    }
-	}
-	```
-
-	> 1. 该算法的渐进时间复杂度$O(\log(a+b))$，与欧几里得算法相同。
-	> 2. 考查该算法的每一步迭代，紧接于两个内部`while`循环之后设置一个断点，观察此时的`a`和`b`。实际上，在a和b各自剔除了所有因子2之后，此时它们都将是奇数。接下来，无论二者大小如何，再经一次互减运算，它们必然将成为一奇一偶。比如，不失一般性，设$a>b$，则得到：$(a-b)$偶数，$b$奇数；再经一步迭代并重新回到断点时，前者至多是：$(a-b)/2$，两个变量之和至多是$(a-b)/2+b\le(a+b)/2$。可见，每经过一步迭代，$a+b$减少一半，故总体迭代步数不超过：$\log_2(a+b)$。
-	> 3. 并且，相较于欧几里得算法而言，该算法涉及的运算更为简单，只有加减和移位操作，而没有欧几里得算法中的乘除操作。
-
-### Task 3
-
-- 设计一个就地移位的算法，使得有$n$个元素的数组`arr[]`进行平移操作，让第$k$项$(k\le n-1)$至数组的首位，让第$k-1$项至数组的末位。
-
-	```cpp
-	int shift2 ( int* A, int n, int k ) { //倚劣倒置算法，将数组循环左秱k位，O(3n) 
-	    k %= n; //确保k <= n 
-	    reverse ( A, k ); //将匙间A[0, k)倒置：O(3k/2)次操作 
-	    reverse ( A + k, n - k ); //将匙间A[k, n)倒置：O(3(n - k)/2)次操作 
-	    reverse ( A, n ); //倒置整个数组A[0, n)：O(3n/2)次操作 
-	    return 3 * n; //迒回累计操作次数，以便不其它算法比较：3/2 * (k + (n - k) + n) = 3n 
-	}//逻辑十分巧妙
-	```
-
-	> 原理：若在原向量$V$中前$k$个元素组成的前缀为$L$，剩余的（后缀）部分为$R$，经整体左移之后的向量应为$R+L$；这里约定，任意向量$V$整体倒置后的结果记作$V'$。于是该算法的原理来自如下恒等式：
-	>
-	> $$
-	> 	R+L=(L'+R')'
-	> $$
-
-### Task 4
-
-对于某些算法的时间复杂度分析：
-
-- Subtask 1:
-
-	```cpp
-	void F(int n) { 
-	for (int i = 0; i < n; i ++) 
-	   for (int j = 1; j < n; j <<= 1); 
-	}
-	```
-
-	> 复杂度：
-	>
-	> $$
-	> \sum_{i=0}^{n-1}\sum_{(k=\log j)=0}^{\log n-1}1=\sum_{i=0}^{n-1}(\log n-1)=n\log n-n=O(n\log n)
-	> $$
-
-- Subtask 2:
-
-	```cpp
-	void F(int n){
-	    for(int i=1,r=1; i<n; i<<=r,r<<=1);
-	}
-	```
-
-	> 复杂度：$i\to i\cdot2^r,\ r\to2^r$。所以，有$i=\prod\limits_{t=0}^{k-1}2^{2^t}=2^{2^k-1}$, $i<n\Rightarrow2^k-1\le\log n\Rightarrow k\le\log\log n$.
-
-- Subtask 3:
-
-	```cpp
-	void F(int n){
-		for(int i=1;i<n;i=1<<i)
-	}
-	```
-
-	> 即每经一次迭代，$i$即增长至$2^i$。设经过$k$次迭代之后，因$i\ge n$而退出迭代。现颠倒原迭代的方向，其过程应等效于反复令$n = \log_2n$，并经k次迭代之后有$n\le1$。由此可知，若对$n$反复取对数直至其不大于1，则$k$等于其间所做对数运算的次数，记作$k = \log^*n$， 读作“log-星-n”。
-	>
-	> 所以时间复杂度为$O(\log^*n)$.
-
-	
-
-	> $O(\log\log n)$和$O(\log^*n)$均可视作常数。特别地，对于$n=2^{270}$，有$\log^*n<5$。
-
-- Subtask 4:
-
-	```cpp
-	int sum( int A[], int n ) 
-	{  
-		return  n < 1  ?  0 : sum(A, n - 1) + A[n - 1];  
-	}
-	```
-
-	> 时间复杂度：
-	>
-	> 由于单个递归实例需要$O(1)$时间完成，共有$n$个实例，所以整个算法的复杂度是$O(n)$。当`sum(A,n)`调用`sum(A,n-1)`时，`sum(A,n)`函数中的数据以“函数帧”的形式被压入一个栈中，并没有处于执行状态。
-
-### Task 5
-
-下列函数渐进增长的大小排序：
-
+**解答思路**：利用矩阵快速幂：
 $$
-O\left(\frac{n}{\log n}\right)>O(n^\frac23)>O(\log^2n)>O(\log\log n)
+\begin{pmatrix} 0 & 1 \\ 1 & 1 \end{pmatrix}^n 
+\begin{pmatrix} fib(0) \\ fib(1) \end{pmatrix} = 
+\begin{pmatrix} fib(n) \\ fib(n+1) \end{pmatrix}
 $$
+时间复杂度 $O(\log n)$。
 
-因为，对数函数$\log n$的渐进增长要慢于任何次数的幂函数$O(x^{\varepsilon}),\ \varepsilon>0$。
+### 题目2：更相减损术分析
+分析以下代码的时间复杂度：
+```cpp
+long long gcdCN(long long a, long long b) {
+    int r = 0;
+    while (!((a & 1) || (b & 1))) { a >>= 1; b >>= 1; r++; }
+    while (1) {
+        while (!(a & 1)) a >>= 1;
+        while (!(b & 1)) b >>= 1;
+        (a > b) ? a = a - b : b = b - a;
+        if (0 == a) return b << r;
+        if (0 == b) return a << r;
+    }
+}
+```
+**解答**：时间复杂度 $O(\log(a+b))$，与欧几里得算法相当。
 
-## 02-向量
+### 题目3：循环移位算法
+使用三个翻转操作实现数组的循环移位：
+```cpp
+int shift2(int* A, int n, int k) {
+    k %= n;
+    reverse(A, k);
+    reverse(A + k, n - k);
+    reverse(A, n);
+    return 3 * n;
+}
+```
+原理：$(R+L)' = L'+R'$
 
-### Task 1
+## 第二章：数组与向量
 
-## 12-图基础
+### 题目1：两数之和
+Leetcode 1. 使用哈希表 $O(n)$ 解法：
+```cpp
+vector<int> twoSum(vector<int>& nums, int target) {
+    unordered_map<int, int> mp;
+    for (int i = 0; i < nums.size(); i++) {
+        int complement = target - nums[i];
+        if (mp.count(complement)) return {mp[complement], i};
+        mp[nums[i]] = i;
+    }
+    return {};
+}
+```
 
-### Task 1
+### 题目2：最大子数组和
+Leetcode 53. 贪心解法：
+```cpp
+int maxSubArray(vector<int>& nums) {
+    int ans = nums[0], cur = nums[0];
+    for (int i = 1; i < nums.size(); i++) {
+        cur = max(cur + nums[i], nums[i]);
+        ans = max(ans, cur);
+    }
+    return ans;
+}
+```
 
-在一个含有$n$个顶点的简单无向图中，边的数量最多为$\dfrac{n(n-1)}{2}$，此时度最小的顶点的度为$n-1$。
+## 第三章：栈与队列
 
-> 因为每个顶点都可以与其他$n-1$个顶点连接一条边，但这样会计算两次每条边（因为无向图的边是双向的），所以需要除以$2$。此时，每个点的度数相同，都是$n-1$。
+### 题目1：有效的括号
+Leetcode 20. 使用栈匹配：
+```cpp
+bool isValid(string s) {
+    stack<char> st;
+    for (char c : s) {
+        if (c=='('||c=='{'||c=='[') st.push(c);
+        else {
+            if (st.empty()) return false;
+            if (c==')'&&st.top()!='(') return false;
+            if (c=='}'&&st.top()!='{') return false;
+            if (c==']'&&st.top()!='[') return false;
+            st.pop();
+        }
+    }
+    return st.empty();
+}
+```
 
-### Task 2
+### 题目2：最小栈
+Leetcode 155. 实现 $O(1)$ 获取最小值：
+```cpp
+class MinStack {
+    stack<pair<int,int>> st;
+public:
+    void push(int x) {
+        if (st.empty()) st.push({x, x});
+        else st.push({x, min(x, st.top().second)});
+    }
+    int getMin() { return st.top().second; }
+    int top() { return st.top().first; }
+    void pop() { st.pop(); }
+};
+```
 
-在人类的历史长河中，每个人都可能要与其他人握手。如果某人在他的一生中进行握手的次数为奇数，则称他为A类人，否则称为B类人。从古至今A类人的个数是**偶数**。如何用图的相关理论解释？
+## 第四章：链表
 
-> 无向图的边数等于各顶点度数之和的一半。
+### 题目1：反转链表
+Leetcode 206. 迭代与递归：
+```cpp
+ListNode* reverseList(ListNode* head) {
+    ListNode *prev = nullptr, *curr = head;
+    while (curr) {
+        ListNode* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+```
 
-### Task 3
+### 题目2：合并两个有序链表
+Leetcode 21:
+```cpp
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+    ListNode dummy(0);
+    ListNode* tail = &dummy;
+    while (l1 && l2) {
+        if (l1->val <= l2->val) { tail->next = l1; l1 = l1->next; }
+        else { tail->next = l2; l2 = l2->next; }
+        tail = tail->next;
+    }
+    tail->next = l1 ? l1 : l2;
+    return dummy.next;
+}
+```
 
-若$G$是简单无向图，$A$为$G$的邻接矩阵，$M$为$G$的关联矩阵，$D$是对角线上第`i`个元素为顶点的度的对角矩阵，则它们的关系是：$A+D=MM^T$。
+## 第五章：排序
 
-> 证明：（ChatGPT）
->
-> 要证明对于简单无向图 $G$，其邻接矩阵 $A$、关联矩阵 $M$ 和度矩阵 $D$ 满足关系 $A + D = MM^T$，我们可以按以下步骤进行。
->
-> ### 步骤 1：定义和性质
->
-> 1. **邻接矩阵 $A$**:
-> 	- 如果 $G$ 有 $n$ 个顶点和 $m$ 条边，$A$ 是一个 $n \times n$ 的矩阵。
-> 	- $A_{ij}$ 表示顶点 $i$ 和顶点 $j$ 之间是否存在边。
-> 	- $A$ 是对称矩阵，且对角线上全为0。
->
-> 2. **关联矩阵 $M$**:
-> 	- $M$ 是一个 $n \times m$ 的矩阵，表示顶点和边的关系。
-> 	- 如果边 $e_k$ 连接顶点 $v_i$ 和 $v_j$，则 $M_{ik}$ 和 $M_{jk}$ 都为1（假设无向边）。
->
-> 3. **度矩阵 $D$**:
-> 	- $D$ 是一个 $n \times n$ 的对角矩阵。
-> 	- $D_{ii}$ 表示顶点 $v_i$ 的度数，即与顶点 $v_i$ 相连的边的数量。
->
-> ### 步骤 2：计算 $MM^T$
->
-> - $M$ 的每一列代表一条边，两行之间的相应位置表示这两个顶点是否共享一条边。
-> - $MM^T$ 的结果将是一个 $n \times n$ 的矩阵，其中每个元素 $(i, j)$ 表示顶点 $v_i$ 和顶点 $v_j$ 共享的边的数目。
->
-> 更具体地说：
->
-> - $(MM^T)_{ij} = \sum_{k=1}^{m} M_{ik} M_{jk}$
-> - 对于 $i \neq j$，$(MM^T)_{ij}$ 表示顶点 $v_i$ 和顶点 $v_j$ 之间是否有边，即 $A_{ij}$。
-> - 对于 $i = j$，$(MM^T)_{ii}$ 表示顶点 $v_i$ 的度数，即 $D_{ii}$。
->
-> ### 步骤 3：证明关系 $A + D = MM^T$
->
-> 对于 $i \neq j$：
->
-> $$
->     (MM^T)_{ij} = \sum_{k=1}^{m} M_{ik} M_{jk} = A_{ij}
-> $$
->
-> 这是因为 $A_{ij}$ 表示顶点 $v_i$ 和顶点 $v_j$ 之间是否有边。
->
-> 对于 $i = j$：
->
-> $$
->     (MM^T)_{ii} = \sum_{k=1}^{m} M_{ik} M_{ik} = \text{deg}(v_i)
-> $$
->
-> 这是因为 $\text{deg}(v_i)$ 是顶点 $v_i$ 的度数，即与顶点 $v_i$ 相连的边的数量，等于度矩阵 $D$ 中对应的对角元素。
->
-> 因此，我们得到：
->
-> $$
-> A_{ij} + D_{ii} = (MM^T)_{ij}
-> $$
->
-> 其中 $A_{ii} = 0$，$D_{ij} = 0$ 对于 $i \neq j$。于是：
->
-> $$
-> A + D = MM^T
-> $$
->
-> 这完成了证明。
+### 题目1：快速排序优化
+三数取中 + 插入排序优化：
+```cpp
+void quickSort(vector<int>& arr, int low, int high) {
+    if (high - low < 10) {
+        insertionSort(arr, low, high);
+        return;
+    }
+    int mid = (low + high) >> 1;
+    if (arr[low] > arr[mid]) swap(arr[low], arr[mid]);
+    if (arr[low] > arr[high]) swap(arr[low], arr[high]);
+    if (arr[mid] > arr[high]) swap(arr[mid], arr[high]);
+    int pivot = arr[high - 1];
+    int i = low, j = high - 1;
+    while (true) {
+        while (arr[++i] < pivot) {}
+        while (arr[--j] > pivot) {}
+        if (i < j) swap(arr[i], arr[j]);
+        else break;
+    }
+    swap(arr[i], arr[high - 1]);
+    quickSort(arr, low, i - 1);
+    quickSort(arr, i + 1, high);
+}
+```
+
+### 题目2：归并排序求逆序对
+Leetcode 315:
+```cpp
+long long mergeSort(vector<int>& arr, int l, int r) {
+    if (l >= r) return 0;
+    int mid = (l + r) >> 1;
+    long long cnt = mergeSort(arr, l, mid) + mergeSort(arr, mid+1, r);
+    int i = l, j = mid + 1, k = 0;
+    vector<int> tmp(r - l + 1);
+    while (i <= mid && j <= r) {
+        if (arr[i] <= arr[j]) tmp[k++] = arr[i++];
+        else { tmp[k++] = arr[j++]; cnt += mid - i + 1; }
+    }
+    while (i <= mid) tmp[k++] = arr[i++];
+    while (j <= r) tmp[k++] = arr[j++];
+    for (int p = 0; p < k; p++) arr[l + p] = tmp[p];
+    return cnt;
+}
+```
+
+## 第六章：树
+
+### 题目1：二叉树遍历
+- 前序、中序、后序（递归 + 迭代）：
+```cpp
+// Morris中序 O(1)空间
+vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> res;
+    TreeNode *cur = root, *pre;
+    while (cur) {
+        if (!cur->left) {
+            res.push_back(cur->val);
+            cur = cur->right;
+        } else {
+            pre = cur->left;
+            while (pre->right && pre->right != cur) pre = pre->right;
+            if (!pre->right) {
+                pre->right = cur;
+                cur = cur->left;
+            } else {
+                pre->right = nullptr;
+                res.push_back(cur->val);
+                cur = cur->right;
+            }
+        }
+    }
+    return res;
+}
+```
+
+### 题目2：验证二叉搜索树
+Leetcode 98:
+```cpp
+bool isValidBST(TreeNode* root, long long mn = LONG_MIN, long long mx = LONG_MAX) {
+    if (!root) return true;
+    if (root->val <= mn || root->val >= mx) return false;
+    return isValidBST(root->left, mn, root->val) && isValidBST(root->right, root->val, mx);
+}
+```
+
+## 第七章：图
+
+### 题目1：岛屿数量
+Leetcode 200. BFS/DFS flood fill:
+```cpp
+void dfs(vector<vector<char>>& grid, int i, int j) {
+    int m = grid.size(), n = grid[0].size();
+    if (i<0||j<0||i>=m||j>=n||grid[i][j]=='0') return;
+    grid[i][j] = '0';
+    dfs(grid, i+1, j); dfs(grid, i-1, j);
+    dfs(grid, i, j+1); dfs(grid, i, j-1);
+}
+int numIslands(vector<vector<char>>& grid) {
+    int m = grid.size(), n = grid[0].size(), cnt = 0;
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            if (grid[i][j] == '1') { dfs(grid, i, j); cnt++; }
+    return cnt;
+}
+```
+
+### 题目2：最短路径（Dijkstra）
+```cpp
+vector<int> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int src) {
+    vector<int> dist(n, INT_MAX);
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    pq.push({0, src}); dist[src] = 0;
+    while (!pq.empty()) {
+        auto [d, u] = pq.top(); pq.pop();
+        if (d > dist[u]) continue;
+        for (auto [v, w] : adj[u]) {
+            if (dist[v] > d + w) {
+                dist[v] = d + w;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+    return dist;
+}
+```
+
+## 第八章：动态规划
+
+### 题目1：最长递增子序列
+Leetcode 300:
+```cpp
+int lengthOfLIS(vector<int>& nums) {
+    vector<int> dp(nums.size(), 1);
+    int ans = 1;
+    for (int i = 1; i < nums.size(); i++) {
+        for (int j = 0; j < i; j++)
+            if (nums[j] < nums[i]) dp[i] = max(dp[i], dp[j] + 1);
+        ans = max(ans, dp[i]);
+    }
+    return ans;
+}
+```
+
+### 题目2：0-1背包问题
+```cpp
+int knapSack(int W, vector<int>& wt, vector<int>& val, int n) {
+    vector<int> dp(W+1, 0);
+    for (int i = 0; i < n; i++)
+        for (int j = W; j >= wt[i]; j--)
+            dp[j] = max(dp[j], dp[j - wt[i]] + val[i]);
+    return dp[W];
+}
+```
+
+## 第九章：字符串
+
+### 题目1：KMP模式匹配
+实现KMP搜索：
+```cpp
+vector<int> computeLPS(const string& pattern) {
+    int m = pattern.size();
+    vector<int> lps(m, 0);
+    for (int i = 1, len = 0; i < m; ) {
+        if (pattern[i] == pattern[len]) lps[i++] = ++len;
+        else if (len > 0) len = lps[len-1];
+        else lps[i++] = 0;
+    }
+    return lps;
+}
+
+int kmpSearch(const string& text, const string& pattern) {
+    vector<int> lps = computeLPS(pattern);
+    int i = 0, j = 0;
+    while (i < (int)text.size() && j < (int)pattern.size()) {
+        if (text[i] == pattern[j]) { i++; j++; }
+        else if (j > 0) j = lps[j-1];
+        else i++;
+    }
+    return j == pattern.size() ? i - j : -1;
+}
+```
+
+### 题目2：字符串全排列
+带重复字符的去重全排列：
+```cpp
+void backtrack(vector<string>& res, string& s, int idx) {
+    if (idx == s.size()) { res.push_back(s); return; }
+    unordered_set<char> used;
+    for (int i = idx; i < s.size(); i++) {
+        if (used.count(s[i])) continue;
+        used.insert(s[i]);
+        swap(s[idx], s[i]);
+        backtrack(res, s, idx + 1);
+        swap(s[idx], s[i]);
+    }
+}
+```
+
+---
+
+This file contains comprehensive algorithm exercises organized by topic. Each problem includes:
+- Problem description with Chinese explanation
+- C++ implementation with detailed comments
+- Algorithmic insight and complexity analysis
+- Related Leetcode problem references where applicable

@@ -15,6 +15,12 @@ export default defineConfig({
       { text: "Docs Homepage", link: "/" },
       { text: "DSA", link: "/dsa/index" },
       {
+        text: "Math",
+        items: [
+          { text: "Convex Optimization", link: "/convex/index" },
+        ],
+      },
+      {
         text: "ML and DL",
         items: [
           { text: "Machine Learning", link: "/machine-learning/index" },
@@ -49,6 +55,31 @@ export default defineConfig({
             { text: "12-Graph", link: "/dsa/graph" },
             { text: "13-Search", link: "/dsa/search" },
             { text: "14-Divide and Conquer", link: "/dsa/divide-and-conquer" },
+            { text: "15-Greedy", link: "/dsa/greedy" },
+            { text: "16-Dynamic Programming", link: "/dsa/dp" },
+            { text: "17-Backtracking", link: "/dsa/backtracking" },
+            { text: "18-Branch and Bound", link: "/dsa/branch-and-bound" },
+            { text: "19-NP-Completeness", link: "/dsa/np-complete" },
+            { text: "20-Randomized", link: "/dsa/randomized" },
+            { text: "21-Approximation", link: "/dsa/approx" },
+            { text: "22-Genetic", link: "/dsa/genetic" },
+            { text: "23-Cryptography", link: "/dsa/crypto" },
+          ],
+        },
+      ],
+
+      "/convex": [
+        {
+          items: [
+            { text: "Overview", link: "/convex/index" },
+            { text: "Ch1: Mathematical Background", link: "/convex/chapter-01-mathematical-background" },
+            { text: "Ch2: Convex Sets", link: "/convex/chapter-02-convex-sets" },
+            { text: "Ch3: Convex Functions", link: "/convex/chapter-03-convex-functions" },
+            { text: "Ch4: Convex Optimization Problems", link: "/convex/chapter-04-convex-optimization-problems" },
+            { text: "Ch5: Duality", link: "/convex/chapter-05-duality" },
+            { text: "Ch11: Interior-Point Methods", link: "/convex/chapter-11-interior-point-methods" },
+            { text: "Cheatsheet: Problem Forms", link: "/convex/cheatsheet-problem-forms" },
+            { text: "Cheatsheet: Convexity Equivalences", link: "/convex/cheatsheet-convex-transformations" },
           ],
         },
       ],
@@ -124,8 +155,12 @@ export default defineConfig({
       "/deep-learning": [
         {
           items: [
-            { text: "01-Overview", link: "/deep-learning/index" },
-            { text: "RNN", link: "/deep-learning/recurrent-neural-network" },
+            { text: "Overview", link: "/deep-learning/index" },
+            { text: "Introduction to Deep Learning", link: "/deep-learning/introduction" },
+            { text: "Convolutional Neural Networks", link: "/deep-learning/convolutional-neural-network" },
+            { text: "Recurrent Neural Networks", link: "/deep-learning/recurrent-neural-network" },
+            { text: "Transformers", link: "/deep-learning/transformer" },
+            { text: "Self-Supervised Learning", link: "/deep-learning/self-supervised-learning" },
           ],
         },
       ],

@@ -1,5 +1,15 @@
 # Deep Learning
 
-### 循环神经网络
+## Fundamentals
 
-[循环神经网络 (Recurrent Neural Network)](recurrent-neural-network.md)
+- [Introduction to Deep Learning](introduction.md)
+
+## Architectures
+
+- [Convolutional Neural Networks](convolutional-neural-network.md)
+- [Recurrent Neural Networks](recurrent-neural-network.md)
+- [Transformers](transformer.md)
+
+## Learning Paradigms
+
+- [Self-Supervised Learning](self-supervised-learning.md)

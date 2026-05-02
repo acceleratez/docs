@@ -1,95 +1,67 @@
 # Recurrent Neural Network
 
-## Introduction of RNN
+## Introduction
 
 ### Definition
 
-Recurrent neural networks (RNNs) are a class of artificial neural network commonly **used for sequential data processing**. Unlike feedforward neural networks, which process data in a single pass, RNNs process data across multiple time steps, making them well-adapted for modelling and processing text, speech, and time series.
+Recurrent neural networks (RNNs) are a class of artificial neural network commonly used for sequential data processing. Unlike feedforward neural networks, which process data in a single pass, RNNs process data across multiple time steps, making them well-adapted for modelling and processing text, speech, and time series.
 
-循环神经网络（Recurrent Neural Network），简称RNN，是一种专门用于**处理序列数据**的神经网络模型。与传统的前馈神经网络不同，RNN在层与层之间的节点是有连接的，这使得它能够在当前的输出中利用之前的信息。RNN的这种设计使其在处理如自然语言文本或时间序列数据等序列化信息时表现出色。
+> A recurrent neural network (RNN), proposed by Rumelhart et al. in 1986, is a neural network model for modeling time series. RNNs provide a very powerful way of dealing with (time) sequential data. In traditional neural network models, operations go from the input layer to hidden layer to output layer. These layers are fully connected, and there is no connection between nodes of each layer. For tasks that involve sequential inputs, such as speech and language, it is often better to use RNNs.
 
-> A recurrent neural network (RNN), proposed by Rumelhartin et al. in 1986, is a **neural network model for modeling time series.** RNNs provide a very powerful way of dealing with **(time) sequential data**. In traditional neural network models, it is operated from the input layer to hidden layer to output layer. These layers are fully connected, and there is no connection between nodes of each layer. For tasks that involve sequential inputs, such as speech and language, it is often better to use RNNs.
-
-### What is "Recurrent"?
+### What Does "Recurrent" Mean?
 
 The modern definition of "recurrent" was initially introduced by Jordan (1986):
 
-> If a network has one or more cycles, that is, **if it is possible to follow a path from a unit back to itself**, then the network is referred to as recurrent. A nonrecurrent network has no cycles.
+> If a network has one or more cycles, that is, if it is possible to follow a path from a unit back to itself, then the network is referred to as recurrent. A nonrecurrent network has no cycles.
+
+### Why RNNs?
+
+In feedforward neural networks, information flows in a single direction. While this makes learning easier, it limits the network's modeling capability. A feedforward network can be seen as a complex function where each input is independent — the output depends only on the current input.
+
+Many real-world problems involve data that changes over time. For example, a person's health varies with age, and yearly samples must be recorded in temporal order for prediction.
+
+Feedforward networks struggle with sequential data like video, speech, and text. Sequential data often has variable length, while feedforward networks require fixed input and output dimensions. A more powerful model is needed for these tasks.
+
+### RNN vs RecNN
+
+Recurrent Neural Networks (RNNs) (Rumelhart et al., 1986) are chain-structured neural networks for processing sequential data.
+
+Recursive Neural Networks (RecNNs) (Pollack, 1990) are tree-structured neural networks where nodes process input according to their connection order.
+
+> Model Comparison:
 >
-> 如果一个网络有一个或者多个循环，也就是说，如果沿着一条路径，可以从一个单元返回到它自己，那么该网络称为 Recurrent。
+> - Recurrent Neural Networks: Most cognitively plausible (reading from left to right), not usually the highest classification performance but lots of improvements with gates (GRUs, LSTMs, etc).
+> - Recursive Neural Networks: Most linguistically plausible, interpretable, provide most important phrases, need parse trees.
 
-### Why Do We Need It?
-- 在前馈神经网络中，信息的传递是单向的，这种限制虽然使得网络变得更容易学习，但在一定程度上也减弱了神经网络模型的能力。在生物神经网络中，神经元之间的连接关系要复杂得多。前馈神经网络可以看作一个复杂的函数，每次输入都是独立的，即网络的输出只依赖于当前的输入。
-- 在自然界中，还有很多随着时间而变化的数据需要处理，比如，对一个人来说，在不同的年龄会有不同的身高、体重、健康状况，只有性别是固定的。如果需要根据年龄来预测此人的健康状况，则需要每年对此人的情况进行一次采样，按时间排序后记录到数据库中。
-- 此外，前馈网络难以处理时序数据，比如视频、语音、文本等。时序数据的长度一般是不固定的，而前馈神经网络要求输入和输出的维数都是固定的，不能任意改变。因此，当处理这一类和时序数据相关的问题时，就需要一种能力更强的模型。
-
-### What Is the Difference?
-
-- 循环神经网络 (Recurrent Neural Network) ，(Rumelhart et al., 1986c) 通常被称为RNN，是一类用于处理序列数据的链式神经网络。
-
-<center><img src="https://picx.zhimg.com/80/v2-951babf82b641f90fd9ba0a467978261_720w.webp?source=1def8aca" alt="img" style="zoom: 67%;" /></center>
-
-- 递归神经网络(Recursive Neural Network)，(Pollack,1990) 是具有树状阶层结构且网络节点按其连接顺序对输入信息进行处理的人工神经网络。
-
-<center><img src="../assets/RecNN.png" alt="img" style="zoom:50%;" /></center>
-
-
-> **Model Comparison:**
+> RecNNs generalize RNNs:
 >
-> - Recurrent Neural Networks: Most **cognitively** plausible (reading from left to right), not usually the highest classification performance but lots of improvements right now with gates (GRUs, LSTMs, etc).
-> - Recursive Neural Networks: most **linguistically** plausible, interpretable provide most important phrases, need parse trees.
->
-> 模型比较：
->
-> - 循环神经网络：在**认知**上最可信（从左到右阅读），分类性能通常不是最高的，但现在通过门（GRUs、LSTMs 等）有了很多改进。
-> - 递归神经网络：**语言**上最可信，可解释，提供最重要的短语，需要解析树。
-
-> **RecNNs generalize RNNs. (Akbar Karimi)**:
->
-> - **RecNNs generalize RNNs.** Because of their tree structure, they can learn hierarchical models as opposed to RNNs that can handle only sequential data. The number of children for each node in the tree is fixed so that it can perform recursive operations and use the same weights across the steps.
->
-> - **RecNN 泛化了 RNN。** 由于它们的树结构，它们可以学习分层模型，而不是只能处理顺序数据的 RNN。树中每个节点的子节点数是固定的，因此它可以执行递归操作并在步骤中使用相同的权重。
+> Because of their tree structure, RecNNs can learn hierarchical models as opposed to RNNs that can handle only sequential data. The number of children for each node in the tree is fixed so that it can perform recursive operations and use the same weights across the steps.
 
 ### Brief History of RNNs
 
-1. **1933: 反响回路假设**  
-    西班牙神经生物学家 Rafael Lorente de Nó 发现大脑皮层的解剖结构允许刺激在神经回路中循环传递，并由此提出反响回路假设（*reverberating circuit hypothesis*）。
+1. 1933: Reverberating Circuit Hypothesis — Spanish neurobiologist Rafael Lorente de Nó discovered that the cerebral cortex's anatomical structure allows stimuli to circulate in neural circuits, proposing the reverberating circuit hypothesis.
+2. 1982: Hopfield Network — John Hopfield used binary nodes to build neural networks with content-addressable memory capabilities.
+3. 1986: Jordan Network — Michael I. Jordan established a new recurrent neural network based on Hopfield's associative memory concept under distributed parallel processing theory.
+4. 1990: Elman Network — Jeffrey Elman proposed the first fully connected recurrent neural network. Jordan and Elman networks, both derived from single-layer feedforward networks by adding recurrent connections, are known as Simple Recurrent Networks (SRNs).
+5. 1991: Backpropagation Through Time — Paul Werbos proposed BPTT for recurrent neural networks, which remains the primary learning method for RNNs.
+6. 1991: Long-Term Dependency Problem — Sepp Hochreiter discovered the long-term dependencies problem of RNNs.
+7. 1991+: Optimizations and Improvements — Numerous optimization techniques have been introduced, including Neural History Compressor (NHC), Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU), Echo State Networks, and Independent RNNs.
 
-2. **1982: Hopfield神经网络**  
-    美国学者 John Hopfield 使用二元节点建立了具有结合存储（*content-addressable memory*）能力的神经网络，即 Hopfield 神经网络。
+### From Feedforward NNs to RNNs
 
-3. **1986: Jordan网络**  
-    Michael I. Jordan 基于 Hopfield 网络的结合存储概念，在分布式并行处理理论下建立了新的循环神经网络，即 Jordan 网络。
+Given a static input, a feedforward network processes it through a hidden layer to produce an output. Here the hidden layer is a fully connected or convolutional neural network, and the output is a classification or regression result.
 
-4. **1990: Elman网络**  
-    Jeffrey Elman 提出了第一个全连接的循环神经网络，即 Elman 网络。Jordan 网络和 Elman 网络是最早出现的面向序列数据的循环神经网络，由于二者都从单层前馈神经网络出发建立递归连接，因此也被称为简单循环网络（*Simple Recurrent Network, SRN*）。
+When dealing with sequential data (e.g., with 3 time steps), we could build three separate feedforward networks to process respectively.
 
-5. **1991: 随时间反向传播**  
-    1990年，Paul Werbos提出了循环神经网络的随时间反向传播（BP Through Time，BPTT），BPTT被沿用至今，是循环神经网络进行学习的主要方法。
+However, time steps are related, so we establish connections between hidden layers via a weight matrix.
 
-6. **1991: 长程依赖问题**  
-    1991年，Sepp Hochreiter发现了循环神经网络的长期依赖问题（*long-term dependencies problem*）。
+Based on the sequential nature of the data, we can expand the number of time steps, with connections between each adjacent time step.
 
-7. **1991+: 优化与改进**  
-    此后，大量优化理论得到引入并衍生出许多改进算法，包括神经历史压缩器（*Neural History Compressor, NHC*）、长短期记忆网络（*Long Short-Term Memory networks, LSTM*）、门控循环单元网络（*Gated Recurrent Unit networks, GRU*）、回声状态网络（*echo state network*）、独立循环神经网络（*Independent RNN*）等。
+> - `U`: Weight matrix from input layer to hidden layer (input-hidden matrix).
+> - `V`: Weight matrix from hidden layer to output layer (hidden-output matrix).
+> - `W`: Weight matrix from the previous hidden state used as input for the current step (hidden-hidden matrix).
 
-### From Feed-Forward NNs to RNNs
-
-- 根据一个静态的输入数据$x$，经过隐层$h$的计算，最终得到结果$a$。这里的$h$是全连接神经网络或者卷积神经网络，$a$是回归或分类的结果。
-- 当遇到序列数据的问题后（假设时间步数为3），可以建立三个前馈神经网络来分别处理$t=1,2,3$的数据，即$x1,x2,x3$。
-- 但是两个时间步之间是有联系的，于是在隐层$h1,h2,h3$之间建立了一条连接线，实际上是一个矩阵$\boldsymbol{W}$。
-- 根据序列数据的特性，可以扩充时间步的数量，在每个相邻的时间步之间都会有联系。
-
-<center><img src="../assets/evolution.png" alt="img" style="zoom:75%;" /></center>
-
-> - $\boldsymbol{U}$: 输入层到隐藏层的权重矩阵。（输入-隐层矩阵）
-> - $\boldsymbol{V}$: 隐藏层到输出层的权重矩阵。（隐层-输出矩阵）
-> - $\boldsymbol{W}$: 隐藏层上一次的值作为这一次的输入的权重矩阵。（输出-隐层矩阵）
->
-
-### Architecture of RNNs
-
-<center><img src="../assets/architecture.png" alt="img" style="zoom:75%;" /></center>
+### Architecture Types
 
 1. Vanilla neural networks (One-to-One).
 2. One-to-Many.
@@ -97,13 +69,16 @@ The modern definition of "recurrent" was initially introduced by Jordan (1986):
 4. Many-to-Many, Version 1.
 5. Many-to-Many, Version 2.
 
+RNNs offer great flexibility: they can handle image captioning (image to word sequence), sentiment classification (word sequence to sentiment), machine translation (word sequence to word sequence), and video classification at the frame level.
+
 ## Simple Recurrent Network
 
 ### Elman and Jordan Network
 
-简单循环网络(Simple Recurrent Network, SRN)是一个非常简单的循环神经网络，只有一个隐藏层。在一个两层的前馈神经网络中，连接存在相邻的层与层之间，隐藏层的节点之间是无连接的。而简单循环网络增加了从隐藏层到隐藏层的反馈连接。
+A Simple Recurrent Network (SRN) is a very basic RNN with a single hidden layer. In a two-layer feedforward network, connections exist only between adjacent layers, with no connections among hidden nodes. SRNs add feedback connections from hidden layer to hidden layer.
 
-简单循环神经网络在时刻 $t$ 的更新公式为（具有隐藏状态反馈）：
+The SRN update equations at time with hidden state feedback (Elman Network):
+
 $$
 \begin{cases}
  \boldsymbol{s}_t=f(\boldsymbol{U}\boldsymbol{x}_t+\boldsymbol{W}\boldsymbol{s}_{t-1}+\boldsymbol{b}_t)\\
@@ -111,9 +86,9 @@ $$
     L_t(\boldsymbol{y}_t,\hat{\boldsymbol{y}}_t)=\text{Loss}(\boldsymbol{y}_t,\hat{\boldsymbol{y}}_t)
 \end{cases}
 $$
-代表：Elman网络。
 
-简单循环神经网络在时刻 $t$ 的更新公式为（具有输出状态反馈）：
+The SRN update equations at time with output state feedback (Jordan Network):
+
 $$
 \begin{cases}
 \boldsymbol{s}_t=f(\boldsymbol{U}\boldsymbol{x}_t+\boldsymbol{W}\hat{\boldsymbol{y}}_{t-1}+\boldsymbol{b}_t)\\
@@ -121,294 +96,739 @@ $$
 L_t(\boldsymbol{y}_t,\hat{\boldsymbol{y}}_t)=\text{Loss}(\boldsymbol{y}_t,\hat{\boldsymbol{y}}_t)
 \end{cases}
 $$
-代表：Jordan网络。
 
-> 区别：
+> Difference:
 >
-> 1. Elman Network的一个recurrent层的输出经过时延后作为下一时刻这一层的输入的一部分，然后recurrent层的输出同时送到网络后续的层，比如最终的输入层。
-> 2. Jordan network则直接把整个网络最终的输出（i.e. 输出层的输出）经过时延后反馈回网络的输入层。
+> 1. Elman Network: The output of a recurrent layer, after a delay, serves as part of the input for the same layer at the next step. The recurrent layer's output is simultaneously fed to subsequent layers.
+> 2. Jordan Network: The final network output (i.e., output layer output) is fed back to the network's input layer after a delay.
 
-<center><img src="../assets/Elman-Jordan.png" alt="img" style="zoom:22%;" /></center>
+### The Vanilla RNN Cell
 
-### Why is it "General"?
+The Vanilla Recurrent Neural Network state consists of a single hidden vector :
 
-#### Universal Approximation Theorem
+$$
+h_t = f_W(h_{t-1}, x_t)
+$$
 
-设 $\phi(\cdot)$ 是一个非常数、有界、单调递增且连续函数（激活函数），$x$ 是一个 $D$ 维实数向量，满足 $x \in [0,1]^D$。记 $C(x)$ 为定义在 $x$ 上的连续函数集合，即输入为长度为 $D$ 的向量，且每个维度的值都在区间 $[0,1]$ 内的实数。
+$$
+h_t = \tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)
+$$
 
-**对于任意给定的函数 $f \in C(x)$，存在一个正整数 $M$，以及一组实数 $u_m, b_m \in \mathbb{R}$ 和实数向量 $w_m \in \mathbb{R}^D$，使得通过如下形式的函数**  
+$$
+y_t = \text{softmax}(W_{hy} h_t + b_y)
+$$
+
+Notice: the same function and the same set of parameters are used at every time step.
+
+### Universal Approximation Theorem
+
+Let be a non-constant, bounded, monotonically increasing, continuous function (activation function), and let be a D-dimensional real vector satisfying . Let denote the set of continuous functions defined on , i.e., functions taking as input a vector of length D with each dimension in .
+
+For any given function , there exists a positive integer , a set of real numbers and real vectors such that the function
+
 $$
 	F(x) = \sum_{m=1}^{M} u_m \phi\left(w_m^{T} x + b_m\right)
 $$
-**可以近似实现 $f(x)$，即满足 $|F(x) - f(x)| < \epsilon, \quad \forall x \in [0,1]^D$，**
-**其中 $\epsilon > 0$ 是一个任意小的正数。**
 
-通用近似定理在 $D$ 维实数空间 $\mathbb{R}^D$ 中的有界闭集上依然成立。
+can approximate to arbitrary precision, i.e., for any arbitrarily small .
 
-循环神经网络的拟合能力也十分强大。一个完全连接的循环网络是任何非线性动力系统的近似器。
+The universal approximation theorem also holds on bounded closed sets in .
 
-**如果一个完全连接的循环神经网络有足够数量的 sigmoid 型隐藏神经元，它可以以任意的准确率去近似任何一个非线性动力系统**
+RNNs also possess powerful fitting capabilities. A fully connected recurrent network is an approximator of any nonlinear dynamical system:
+
+> A fully connected recurrent neural network with a sufficient number of sigmoid-type hidden neurons can approximate any nonlinear dynamical system with arbitrary accuracy:
+
 $$
 \begin{aligned}
 		\boldsymbol{s}_t&=g(\boldsymbol{s}_{t-1},\boldsymbol{x}_t)\\
 		\boldsymbol{y}_t&=o(\boldsymbol{s}_t),
 	\end{aligned}
 $$
-**其中，$s_t$ 为隐藏状态，$x_t$ 为外部输入，$g(\cdot)$ 为可测得的状态转移函数，$o(\cdot)$ 为连续输出函数。**
 
-根据通用近似定理，两层的前馈神经网络可以近似任意有界闭集上的任意连续函数。因此，动力系统的两个函数可以用两层的全连接前馈网络近似。
+where is the hidden state, is the external input, is a measurable state transition function, and is a continuous output function.
 
-#### Turing Completeness
+According to the universal approximation theorem, a two-layer feedforward network can approximate any continuous function on any bounded closed set. Therefore, both functions of the dynamical system can be approximated by two-layer fully connected feedforward networks.
 
-**所有的图灵机都可以被一个由使用 Sigmoid 型激活函数的神经元构成的全连接循环网络来进行模拟。**
+### Turing Completeness
 
-因此，一个完全连接的循环网络是可以近似解决所有的可计算问题。
+All Turing machines can be simulated by a fully connected recurrent network composed of neurons with sigmoid-type activation functions.
 
-### Gradient Descent
+Therefore, a fully connected recurrent network can approximately solve all computable problems.
 
-给定一个训练样本$(\boldsymbol{x},\boldsymbol{y})$，其中$\boldsymbol{x}_{1:T}=(\boldsymbol{x}_1,\boldsymbol{x}_2,\cdots,\boldsymbol{x}_T)$是输入序列，$\boldsymbol{y}_{1:T}=(\boldsymbol{y}_1,\boldsymbol{y}_2,\cdots,\boldsymbol{y}_T)$是输出序列。对于每一个时间步$t$，损失函数为$L_t=\text{Loss}(\boldsymbol{y}_t,\hat{\boldsymbol{y}}_t)$，其中$\hat{\boldsymbol{y}}_t$是网络在时间步$t$的输出，$\text{Loss}$是可微的损失函数，如均方误差或交叉熵。则这个序列的总损失函数为
+## Training RNNs: Backpropagation Through Time
+
+### Gradient Descent for RNNs
+
+Given a training sample , where is the input sequence and is the output sequence. For each time step , the loss function is , where is the network output at step and Loss is a differentiable loss function such as mean squared error or cross-entropy. The total loss for the sequence is:
+
 $$
     L=\sum_{t=1}^{T}L_t.
 $$
-整个序列的损失函数$L$关于网络参数$\boldsymbol{U,V,W}$的梯度为每个时刻的损失函数$L_t$关于参数$\boldsymbol{U,V,W}$的偏导数之和，即
+
+The gradient of the total sequence loss with respect to network parameters is the sum of the partial derivatives of at each time step:
+
 $$
     \frac{\partial L}{\partial \boldsymbol{U}}=\sum_{t=1}^{T}\frac{\partial L_t}{\partial \boldsymbol{U}},\quad \frac{\partial L}{\partial \boldsymbol{V}}=\sum_{t=1}^{T}\frac{\partial L_t}{\partial \boldsymbol{V}},\quad \frac{\partial L}{\partial \boldsymbol{W}}=\sum_{t=1}^{T}\frac{\partial L_t}{\partial \boldsymbol{W}}.
 $$
 
-由于$f(\cdot)$是递归调用的，因此在计算梯度时，需要新的方法。
+Since is called recursively, computing gradients requires specialized methods:
 
-1. 反向传播通过时间（BackPropagation Through Time, BPTT）
-2. 实时循环学习（Real-Time Recurrent Learning, RTRL）。
+1. Backpropagation Through Time (BPTT)
+2. Real-Time Recurrent Learning (RTRL)
 
-- BPTT的主要思想是将网络展开为一个前馈神经网络，然后使用标准的反向传播算法来计算梯度。展开的长度取决于序列的长度，因此BPTT的计算复杂度随着序列长度的增加而增加。在展开的前馈网络中，所有层的参数是共享的，因此在计算梯度时，需要将所有时刻的梯度相加。
-- 与BP算法不同的是，权重矩阵W和U的寻优过程需要追溯之前的历史数据。
+BPTT unrolls the network into a feedforward network and applies standard backpropagation. The unrolled length depends on sequence length, so BPTT's computational complexity increases with sequence length. In the unrolled network, all layers share parameters, so gradients from all time steps must be summed.
 
-BPTT算法是针对循环层的训练算法，它的基本原理和BP算法是一样的，也包含同样的三个步骤:
+Unlike standard BP, the optimization of weight matrices and requires tracing through previous historical data.
 
-1. 前向计算每个神经元的输出值；
-2. 反向计算每个神经元的误差项$\delta_j$，即误差函数对神经元$j$的加权输入$\text{net}_j$的偏导数。
-3. 计算每一个权重的梯度。
+The BPTT algorithm for recurrent layers has three steps (same basic principles as BP):
 
-### BackPropagation Through Time (BPTT)
-1. 前向计算：
-    $$
-    \boldsymbol{s}_t=f(\boldsymbol{Ux}_t+\boldsymbol{Ws}_{t-1})
-    $$
+1. Forward computation: compute the output of each neuron.
+2. Backward computation of error terms , i.e., the partial derivative of the error function with respect to the weighted input of neuron .
+3. Compute the gradient for each weight.
 
-2. 误差项的计算：
-   
-   记第$l$层$t$时刻的误差项为$\delta_t^l$。则其沿两个方向传播：
+The gradient with respect to a repeated weight is the sum of the gradient with respect to each time it appears. This is computed via BPTT: backpropagate over timesteps , summing gradients as you go.
 
-    - 沿时间线传递到初始时刻，得到$\delta_1^{l}$，这部分只和权重矩阵$\boldsymbol{W}$有关。
-    - 传递到上一层网络，得到$\delta_t^{l-1}$，这部分只和权重矩阵$\boldsymbol{U}$有关。
-   
-    令$\text{net}_t$表示神经元在t时刻的加权输入（净输入），即：$\text{net}_t=\boldsymbol{Ux}_t+\boldsymbol{Ws}_{t-1}$.
-    考虑
-   $$
-    \frac{\partial\text{net}_{t}}{\partial\text{net}_{t-1}}=\frac{\partial \text{net}_{t}}{\partial \boldsymbol{s}_{t-1}}\cdot\frac{\partial \boldsymbol{s}_{t-1}}{\partial \text{net}_{t-1}}
-   $$
-    等号右边是向量对向量求导，有
-   $$
-    \frac{\partial \text{net}_{t}}{\partial \boldsymbol{s}_{t-1}}=\boldsymbol{W}, \frac{\partial \boldsymbol{s}_{t-1}}{\partial \text{net}_{t-1}}=\textbf{Diag}(f'(\text{net}_{t-1}))
-   $$
-    由于$\frac{\partial \text{net}_{t},i}{\partial \boldsymbol{s}_{t-1},j}=w_{ji},$和$\frac{\partial \boldsymbol{s}_{t-1},k}{\partial \text{net}_{t-1},k}=f'(\text{net}_{t-1,k})$。
+### BPTT Detailed Derivation
 
-    误差项沿时间反向传播的计算公式为：
-   $$
-    \delta^L_k=\delta^L_t\prod_{i=k}^{t-1}\boldsymbol{W}\textbf{Diag}[f'(\text{net}_i)]
-   $$
+1. Forward computation:
 
-    循环层将误差项反向传递到上一层网络，与普通的全连接层完全一样。
-   $$
-    \begin{aligned}
+$$
+\boldsymbol{s}_t=f(\boldsymbol{Ux}_t+\boldsymbol{Ws}_{t-1})
+$$
+
+2. Error term computation:
+
+   Denote the error term at layer at time as . It propagates along two directions:
+   - Along the time axis back to the initial moment, obtaining — this only involves weight matrix .
+   - Propagated to the previous layer, obtaining — this only involves weight matrix .
+
+   Let denote the weighted input of a neuron at time : .
+
+   Consider:
+
+$$
+\frac{\partial\text{net}_{t}}{\partial\text{net}_{t-1}}=\frac{\partial \text{net}_{t}}{\partial \boldsymbol{s}_{t-1}}\cdot\frac{\partial \boldsymbol{s}_{t-1}}{\partial \text{net}_{t-1}}
+$$
+
+   The right-hand side involves vector-to-vector differentiation:
+
+$$
+\frac{\partial \text{net}_{t}}{\partial \boldsymbol{s}_{t-1}}=\boldsymbol{W}, \frac{\partial \boldsymbol{s}_{t-1}}{\partial \text{net}_{t-1}}=\textbf{Diag}(f'(\text{net}_{t-1}))
+$$
+
+   The error term backpropagated through time is:
+
+$$
+\delta^L_k=\delta^L_t\prod_{i=k}^{t-1}\boldsymbol{W}\textbf{Diag}[f'(\text{net}_i)]
+$$
+
+   The recurrent layer propagates error terms to the previous layer, identical to a standard fully connected layer:
+
+$$
+\begin{aligned}
         \operatorname{net}_{t}^{l} & = \boldsymbol{U} \boldsymbol{a}_{t}^{l-1} + \boldsymbol{W} \boldsymbol{s}_{t-1} \\
         \boldsymbol{a}_{t}^{l-1} & = f^{l-1}\left(\operatorname{net}_{t}^{l-1}\right)
     \end{aligned}
-   $$
-    类似地，有：
-   $$
-    (\delta_t^{l-1})^T=(\delta_t^l)^T\boldsymbol{U}\textbf{Diag}[f'^{l-1}(\text{net}_t^{l-1})]
-   $$
+$$
 
-3. 计算梯度（标量对矩阵求导）：
-    因为
-    $$
-    \frac{\partial L}{\partial w_{ji}}= \frac{\partial L}{\partial \text{net}_{t,j}}\frac{\partial \text{net}_{t,j}}{\partial w_{ji}}
-    $$
-    所以
-    $$
-    \nabla_{W_t} L =
+   Similarly:
+
+$$
+    (\delta_t^{l-1})^T=(\delta_t^l)^T\boldsymbol{U}\textbf{Diag}[f'^{l-1}(\text{net}_t^{l-1})]
+$$
+
+3. Computing gradients (scalar-to-matrix differentiation):
+
+   Since
+
+$$
+\frac{\partial L}{\partial w_{ji}}= \frac{\partial L}{\partial \text{net}_{t,j}}\frac{\partial \text{net}_{t,j}}{\partial w_{ji}}
+$$
+
+   we have
+
+$$
+\nabla_{W_t} L =
     \begin{bmatrix}
         \delta_1^t s_1^{t-1} & \delta_1^t s_2^{t-1} & \cdots & \delta_1^t s_n^{t-1} \\
         \delta_2^t s_1^{t-1} & \delta_2^t s_2^{t-1} & \cdots & \delta_2^t s_n^{t-1} \\
         \vdots & \vdots & \ddots & \vdots \\
         \delta_n^t s_1^{t-1} & \delta_n^t s_2^{t-1} & \cdots & \delta_n^t s_n^{t-1}
     \end{bmatrix}
-    $$
-    最终的梯度是各个时刻的梯度之和：
-    $$
-    \nabla_{W} L = \sum_{t=1}^{T} \nabla_{W_t} L
-    $$
-    矩阵$\boldsymbol{U}$同理。
+$$
 
-4. 对于矩阵$\boldsymbol{V}$，只需关注目前的状态。另外，RNN的损失也是会随着时间累加的，所以不能只求t时刻的偏导。
+   The final gradient is the sum of gradients at each time step:
+
+$$
+    \nabla_{W} L = \sum_{t=1}^{T} \nabla_{W_t} L
+$$
+
+   The matrix follows the same pattern.
+
+4. For matrix , only the current state needs to be considered. Additionally, RNN loss accumulates over time, so we cannot compute the partial derivative at a single time step alone:
+
 $$
 \frac{\partial L}{\partial \boldsymbol{V}}=\sum_{t=1}^{T}\frac{\partial L_t}{\partial \text{output}_t}\frac{\partial \text{output}_t}{\partial \boldsymbol{V}}
 $$
-## Long Term Dependencies
+
+## Long-Term Dependencies
 
 ### Gradient Exploding and Vanishing
 
-误差项沿时间反向传播的计算公式为：
+The error term backpropagated through time is:
+
 $$
 \delta^L_k=\delta^L_t\prod_{i=k}^{t-1}\boldsymbol{W}\textbf{Diag}[f'(\text{net}_i)]
 $$
-注意，由于使用链式求导法则，式中有一个连乘项, 如果激活函数是挤压型，例如 $\tanh$ 或 Sigmoid , 他们的导数值在 [0,1] 之间。我们再来看$W$。
-1. 如果$W$的值在 (0,1) 的范围内， 则随着$t$的增大，连乘项会越来越趋近于0， 误差无法传播，这就导致了**梯度消失**的问题。
-2. 如果$W$的值很大，使得$\boldsymbol{W}\textbf{Diag}[f'(\text{net}_i)]$的值大于$1$， 则随着$t$的增大，连乘项的值会呈指数增长，并趋向于无穷，产生**梯度爆炸**。
 
-梯度消失使得误差无法传递到较早的时刻，权重无法更新，网络停止学习。梯度爆炸又会使网络不稳定，梯度过大，权重变化太大，无法很好学习，最坏情况还会产生溢出（NaN）错误而无法更新权重。
+Note that due to the chain rule, a product term appears. If the activation function is a squashing type such as or sigmoid, their derivatives lie in . Consider :
 
-- 采用半线性激活函数ReLU代替挤压型激活函数，ReLU函数在定义域大于0的部分，导数恒等于1，来解决梯度消失问题。
-- 合理初始化权重$W$，使$\boldsymbol{W}\textbf{Diag}[f'(\text{net}_i)]$的值尽量趋近于1，避免梯度消失和梯度爆炸。
+1. If the value of is in the range , as increases, the product term approaches 0, and errors cannot propagate — this causes the vanishing gradient problem.
+2. If is large, such that , then as increases, the product term grows exponentially toward infinity, causing gradient explosion.
 
-上面两种办法都有一定的缺陷，ReLU函数有自身的缺点，而初始化权重的策略也抵不过连乘操作带来的指数增长问题。要想根本解决问题，必须去掉连乘项。
+Vanishing gradients prevent errors from reaching earlier time steps, weights cannot update, and the network stops learning. Exploding gradients make the network unstable with excessively large weight changes; in the worst case, overflow (NaN) errors prevent weight updates.
 
-## Long Short-Term Memory and Gated Recurrent Unit
+Some mitigation approaches:
+- Use semi-linear activation functions like ReLU instead of squashing activations. ReLU has a constant derivative of 1 in the positive domain, helping alleviate vanishing gradients.
+- Carefully initialize weights to make values close to 1, avoiding both vanishing and exploding gradients.
+
+Both approaches have limitations: ReLU has its own drawbacks, and weight initialization strategies cannot withstand the exponential growth from repeated multiplication. To fundamentally solve the problem, the product term must be removed.
+
+### Vanishing Gradient: Formal Proof Sketch
+
+Recall the vanilla RNN recurrence:
+
+$$
+h_t = \tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)
+$$
+
+By the chain rule, the Jacobian of the hidden state transition is:
+
+$$
+\frac{\partial h_t}{\partial h_{t-1}} = \text{Diag}(f'(W_{hh}h_{t-1} + W_{xh}x_t)) \cdot W_{hh}
+$$
+
+Consider the gradient of the loss on step with respect to the hidden state on some previous step :
+
+$$
+\frac{\partial L_i}{\partial h_j} = \frac{\partial L_i}{\partial h_i} \prod_{k=j+1}^{i} \frac{\partial h_k}{\partial h_{k-1}}
+$$
+
+Pascanu et al. (2013) showed that if the largest eigenvalue of is less than 1, the product of Jacobians shrinks exponentially, causing the gradient to vanish. Similarly, if the largest eigenvalue exceeds 1, gradients explode.
+
+> Why is the vanishing gradient a problem? Gradient signal from far away is lost because it's much smaller than gradient signal from nearby. So model weights are only updated with respect to near effects, not long-term effects.
+
+Example effect on an RNN Language Model: for the sentence "When she tried to print her _____, she found that the printer was out of toner. She went to the stationery store to buy more toner. It was very overpriced. After installing the toner into the printer, she finally printed her tickets," the RNN-LM needs to model the dependency between "tickets" on the 7th step and the target word at the end. With vanishing gradients, the model cannot learn this dependency.
+
+Syntactic vs. sequential recency: for "The writer of the books," the correct continuation is "is" (syntactic agreement with "writer"). Due to vanishing gradients, RNN-LMs are better at learning sequential recency ("are," agreeing with the nearest word "books") rather than syntactic recency ("is"), leading to agreement errors [Linzen et al., 2016].
+
+### Gradient Clipping
+
+Gradient clipping is a solution for the exploding gradient problem. If the norm of the gradient exceeds some threshold, scale it down before applying the SGD update:
+
+$$
+\text{if } \|\hat{g}\| > \text{threshold}, \quad \hat{g} \leftarrow \frac{\text{threshold}}{\|\hat{g}\|} \hat{g}
+$$
+
+Intuition: take a step in the same direction, but a smaller step.
+
+If the gradient becomes too big, the SGD update step becomes too large:
+
+$$
+\theta^{\text{new}} = \theta^{\text{old}} - \eta \cdot \nabla_{\theta}L
+$$
+
+This can cause bad updates: we take too large a step and reach a bad parameter configuration with large loss. In the worst case, this results in Inf or NaN.
+
+> Vanishing/exploding gradients are not just an RNN problem. They can affect all neural architectures (including feedforward and convolutional), especially deep ones. Due to the chain rule and choice of nonlinearity, gradients can become vanishingly small as they backpropagate. Solutions include residual connections (ResNet) and dense connections (DenseNet).
+
+## Gated Architectures: LSTM and GRU
+
 ### LSTM
-长短时记忆网络（LSTM）设计思路比较简单，原来的RNN中隐藏层只有一个状态`h`，对短期输入敏感，现在再增加一个状态`C`，来保存长期状态。这个新增状态称为细胞状态（cell state）或单元状态。
 
-如何控制长期状态`C`？在任意时刻$t$，我们需要确定三件事：
+Long Short-Term Memory (LSTM) networks were proposed by Hochreiter and Schmidhuber in 1997. The core design idea: the original RNN has only one hidden state which is sensitive to short-term input; LSTM adds another state to preserve long-term information. This new state is called the cell state.
 
-1. $t-1$时刻传入的状态$c_{t-1}$，有多少需要保留。
-2. 当前时刻的输入信息，有多少需要传递到$t+1$时刻。
-3. 当前时刻的隐层输出$h_t$是什么。
+At any time step , three questions must be addressed:
 
-LSTM设计了门控(gate)结构，控制信息的保留和丢弃。LSTM有三个门，分别是：遗忘门（forget gate），输入门（input gate）和输出门（output gate）。
+1. How much of the previous cell state should be preserved?
+2. How much of the current input information should be passed to ?
+3. What should the hidden layer output be?
 
-<center><img src="../assets/LSTM.png" alt="img" style="zoom:80%;" /></center>
+LSTM uses gate structures to control information retention and discarding. There are three gates: forget gate, input gate, and output gate.
 
+**Forget Gate:** The forget gate output uses a sigmoid activation function mapping output to . The previous cell state is multiplied by when passing through the forget gate, determining how much of enters the current state .
 
-#### Forget Gate
-
-遗忘门的输出为$f_t$， 采用sigmoid激活函数，将输出映射到[0,1]区间。上一时刻细胞状态$c_{t-1}$通过遗忘门时，与$f_t$结果相乘，这样就决定了上一细胞状态$c_{t-1}$有多少能进入当前状态$c_t$。
-
-遗忘门$f_t$的公式如下：
 $$
 f_t = \sigma(h_{t-1} \cdot W_f + x_t \cdot U_f + b_f)
 $$
-其中，$\sigma$为sigmoid激活函数，$h_{t-1}$ 为上一时刻的隐层状态，形状为$(1 \times h)$的行向量。$x_t$为当前时刻的输入，形状为$(1 \times i)$的行向量。参数矩阵$W_f$、$U_f$分别是$(h \times h)$和$(i \times h)$的矩阵，$b_f$为$(1 \times h)$的行向量。
 
-#### Input Gate
-输入门$i_t$决定输入信息有哪些被保留，输入信息包含当前时刻输入和上一时刻隐层输出两部分，存入即时细胞状态$\tilde{c}_t$中。输入门依然采用sigmoid激活函数，将输出映射到[0,1]区间。$\tilde{c}_t$通过输入门时进行信息过滤。
+where is the sigmoid activation, is the previous hidden state (shape ), is the current input (shape ). Parameter matrices and have shapes and respectively, and is shape .
 
-输入门$i_t$的公式如下：
+**Input Gate:** The input gate determines which input information is retained. Input information includes both the current input and previous hidden output, stored in the candidate cell state . The input gate also uses sigmoid activation, mapping output to . The candidate state is filtered through the input gate.
+
 $$
 i_t = \sigma(h_{t-1} \cdot W_i + x_t \cdot U_i + b_i)
 $$
-即时细胞状态 $\tilde{c}_ t$的公式如下:
+
+Candidate cell state:
+
 $$
 \tilde c_t = \tanh(h_{t-1} \cdot W_c + x_t \cdot U_c + b_c)
 $$
 
-上一时刻保留的信息，加上当前输入保留的信息，构成了当前时刻的细胞状态$c_t$。
-
-当前细胞状态$c_t$的公式如下：
-$$
-c_t = f_t \circ c_{t-1}+i_t \circ \tilde{c}_t 
-$$
-$\circ$ 表示 Hadamard 乘积。
-
-> $\tilde c_t = \tanh(h_{t-1} \cdot W_c + x_t \cdot U_c + b_c)$：Sigmoid函数的输出是一个压缩到[0, 1]区间的值，适合用来表示门控机制的概率，即某个信息是否被“允许通过”或“被遗忘”。而$\tilde c_t$为当前时间步的候选记忆，它需要包含“增加”或“减少”的信息（正负值）。
->
-> $i_t,\ \tilde c_t$：控制信息流动的灵活性和有效性。一个负责控制候选信息的加入比例，另一个负责生成新的候选记忆，表达当前时刻的输入和过去信息如何影响细胞状态。如果没有$i_t$，候选状态的信息无法被选择性地过滤，所有的输入都可能直接影响细胞状态。
-
-#### Output Gate
-
-最后，需要确定输出信息。输出门$o_t$决定 $h_{t-1}$ 和 $x_t$ 中哪些信息将被输出，公式如下：
+Information retained from the previous step plus information retained from the current input together form the current cell state:
 
 $$
-o_t = \sigma(h_{t-1} \cdot W_o + x_t \cdot U_o + b_o) 
+c_t = f_t \circ c_{t-1}+i_t \circ \tilde{c}_t
 $$
 
-细胞状态$c_t$通过tanh激活函数压缩到 (-1, 1) 区间，通过输出门，得到当前时刻的隐藏状态$h_t$作为输出，公式如下：
+denotes the Hadamard product.
+
+> The sigmoid function outputs values compressed to , suitable for representing gating probabilities — whether some information is "allowed through" or "forgotten." Meanwhile, as the candidate memory for the current time step, should contain both positive and negative information (increase or decrease). The and together control the flexibility and effectiveness of information flow: one controls the proportion of candidate information added, and the other generates the new candidate memory expressing how current input and past information affect the cell state. Without , candidate state information couldn't be selectively filtered — all input might directly affect the cell state.
+
+**Output Gate:** Finally, the output gate determines which information from and will be output:
+
+$$
+o_t = \sigma(h_{t-1} \cdot W_o + x_t \cdot U_o + b_o)
+$$
+
+The cell state passes through a activation to compress to , then through the output gate to produce the current hidden state :
 
 $$
 h_t=o_t \circ \tanh(c_t)
 $$
 
-最后，时刻t的预测输出为：
+Finally, the predicted output at time is:
 
 $$
 a_t = \sigma(h_t \cdot V + b)
 $$
 
-其中，
+where
 
 $$
 z_t = h_t \cdot V + b
 $$
 
-经过上面的步骤，LSTM就完成了当前时刻的前向计算工作。
+LSTM intuition: memory cells can keep information intact unless inputs make them forget it or overwrite it with new input. The cell can decide to output this information or just store it.
 
 ### GRU
 
-门控循环单元（Gated Recurrent Unit，GRU）网络是一种比LSTM网络更加简单的循环神经网络。
+The Gated Recurrent Unit (GRU) is a simpler alternative to LSTM proposed by Cho et al. in 2014.
 
-它对LSTM做了一些简化：
+Simplifications over LSTM:
 
-1. GRU将LSTM原来的三个门简化成为两个：重置门 $r_t$（Reset Gate）和更新门 $z_t$ (Update Gate)。
-    - 在LSTM网络中，输入门和遗忘门是互补关系，具有一定的冗余性。GRU网络直接使用一个门（更新门）来控制输入和遗忘之间的平衡。
-    - 更新门来控制当前状态需要从历史状态中保留多少信息（不经过非线性变换），以及需要从候选状态中接受多少新信息。
-    - 重置门用来控制候选状态$\tilde h_t$的计算是否依赖上一时刻的状态$h_{t-1}$。
-2. GRU不保留单元状态 $c_t$，只保留隐藏状态 $h_t$作为单元输出，这样就和传统RNN的结构保持一致。
+1. GRU combines LSTM's three gates into two: reset gate and update gate .
+   - In LSTM, the input gate and forget gate are complementary with some redundancy. GRU uses a single gate (update gate) to control the balance between input and forgetting.
+   - The update gate controls how much information from the historical state is retained (without nonlinear transformation) and how much new information is accepted from the candidate state.
+   - The reset gate controls whether the computation of candidate state depends on the previous state .
+2. GRU does not maintain a separate cell state ; it only retains the hidden state as the cell output, making its structure consistent with traditional RNNs.
 
-<center><img src="../assets/GRU.png" alt="GRU Structure" style="zoom:67%;" /></center>
+Update gate:
 
-更新门
 $$
 z_t = \sigma(h_{t-1} \cdot W_z + x_t \cdot U_z)
 $$
 
-重置门
+Reset gate:
+
 $$
 r_t = \sigma(h_{t-1} \cdot W_r + x_t \cdot U_r)
 $$
 
-候选隐藏状态
+Candidate hidden state:
+
 $$
 \tilde{h}_t = \tanh((r_t \circ h_{t-1}) \cdot W_h + x_t \cdot U_h)
 $$
 
-隐藏状态
+Hidden state:
+
 $$
 h_t = (1 - z_t) \circ h_{t-1} + z_t \circ \tilde{h}_t
 $$
 
+GRU uses the update gate and reset gate to control the forgetting and retention of long-term states, as well as the selection of current input information. Both gates use sigmoid functions to map input information to , implementing gating functionality.
 
-GRU通过更新门和重置门控制长期状态的遗忘和保留，以及当前输入信息的选择。更新门和重置门通过Sigmoid函数，将输入信息映射到$[0,1]$区间，实现门控功能。
+First, the previous state passes through the reset gate, combined with current input information, to form the current candidate state , mapped to via .
 
-首先，上一时刻的状态$h_{t-1}$通过重置门，加上当前时刻输入信息，共同构成当前时刻的即时状态$\tilde{h}_t$，并通过$\tanh$函数映射到$[-1,1]$区间。
+Then, the update gate implements both forgetting and remembering. From the hidden state formula, selective forgetting and remembering are achieved through : when forgets more of the previous information, remembers more of the current information — implementing the functionality of LSTM's and in one mechanism.
 
-然后，通过更新门实现遗忘和记忆两个部分。从隐藏状态的公式可以看出，通过$z_t$进行选择性的遗忘和记忆。$(1-z_t)$和$z_t$有联动关系，上一时刻信息遗忘的越多，当前信息记住的就越多，实现了LSTM中$f_t$和$i_t$的功能。
+If the reset gate is close to 0, the model ignores previous hidden state, dropping irrelevant information. If the update gate is close to 1, information can be copied through many time steps (copy-paste state), reducing vanishing gradients. Units with short-term dependencies often have highly active reset gates; those with long-term dependencies have active update gates.
 
+### LSTM vs GRU
+
+- Researchers have proposed many gated RNN variants, but LSTM and GRU are the most widely used.
+- The biggest difference: GRU is quicker to compute and has fewer parameters.
+- There is no conclusive evidence that one consistently performs better than the other.
+- LSTM is a good default choice, especially if data has particularly long dependencies, or you have lots of training data.
+- Rule of thumb: start with LSTM, but switch to GRU for more efficiency.
+
+LSTMs achieved state-of-the-art results for sequence modeling in 2013-2015 across tasks including handwriting recognition, speech recognition, machine translation, parsing, and image captioning. Starting in 2019, Transformers became more dominant for certain NLP tasks. For example, in WMT 2016 the summary report contained "RNN" 44 times; in WMT 2018 it contained "RNN" 9 times and "Transformer" 63 times.
+
+## Bidirectional RNNs
+
+Standard RNNs produce contextual representations that only contain information about the left context. For sentiment classification, the word "terribly" in "the movie was terribly exciting" would have a negative connotation from left context alone, but the right context "exciting" modifies its meaning to positive.
+
+Bidirectional RNNs solve this by running two separate RNNs:
+- A forward RNN processes the sequence left to right.
+- A backward RNN processes the sequence right to left.
+
+On each timestep, the hidden states from both directions are concatenated:
+
+$$
+h_t^{\text{bi}} = [h_t^{\text{forward}}; h_t^{\text{backward}}]
+$$
+
+This concatenated hidden state contains information from both left and right context. These two RNNs generally have separate weights. The bidirectional layer can use any RNN variant (vanilla RNN, LSTM, or GRU).
+
+## Multi-layer RNNs
+
+Multi-layer RNNs stack multiple RNN layers, where the hidden states from RNN layer are the inputs to RNN layer :
+
+$$
+h_t^{(i+1)} = \text{RNN}^{(i+1)}(h_t^{(i)}, h_{t-1}^{(i+1)})
+$$
+
+Stacking allows higher layers to learn more abstract, higher-level representations of the sequence.
+
+## Language Modeling
+
+### What is Language Modeling?
+
+Language Modeling is the task of predicting what word comes next. More formally: given a sequence of words , compute the probability distribution of the next word :
+
+$$
+P(w_{t+1} \mid w_1, \ldots, w_t)
+$$
+
+where can be any word in the vocabulary . A system that does this is called a Language Model.
+
+### n-gram Language Models
+
+The n-gram LM makes a simplifying assumption: depends only on the preceding words:
+
+$$
+P(w_{t+1} \mid w_1, \ldots, w_t) \approx P(w_{t+1} \mid w_{t-n+2}, \ldots, w_t)
+$$
+
+Probabilities are estimated by counting in a large text corpus:
+
+$$
+P(w_{t+1} \mid w_{t-n+2}, \ldots, w_t) = \frac{\text{count}(w_{t-n+2}, \ldots, w_t, w_{t+1})}{\text{count}(w_{t-n+2}, \ldots, w_t)}
+$$
+
+Sparsity problems with n-gram LMs:
+- Sparsity Problem 1: What if a particular n-gram never occurred in data? Then probability is 0. Partial solution: add a small to every count (smoothing).
+- Sparsity Problem 2: What if the (n-1)-gram context never occurred? Then we can't compute probability at all. Partial solution: condition on a shorter context instead (backoff).
+- Increasing n makes sparsity problems worse. Typically, n cannot exceed 5.
+
+### Fixed-Window Neural Language Model
+
+A fixed-window neural LM improves over n-gram LMs:
+- No sparsity problem.
+- Don't need to store all observed n-grams.
+
+Remaining problems:
+- Fixed window is too small.
+- Enlarging the window enlarges the parameter matrix .
+- The window can never be large enough.
+- Input words are multiplied by completely different weights — no symmetry in how inputs are processed.
+
+We need a neural architecture that can process input of any length.
+
+### RNN Language Model
+
+An RNN Language Model applies the same weights at every timestep, processing sequences of any length:
+
+RNN advantages:
+- Can process any length input.
+- Computation for step can (in theory) use information from many steps back.
+- Model size doesn't increase for longer input.
+- Same weights applied on every timestep, providing symmetry in input processing.
+
+RNN disadvantages:
+- Recurrent computation is slow.
+- In practice, difficult to access information from many steps back.
+
+## Training RNN Language Models
+
+To train an RNN-LM:
+- Get a big corpus of text (a sequence of words).
+- Feed into RNN-LM; compute output distribution for every step .
+- Predict probability distribution of every word, given words so far.
+- Loss function on step is cross-entropy between predicted distribution and the true next word (one-hot):
+
+$$
+L_t = -\log P_{\text{model}}(w_{t+1} \mid w_1, \ldots, w_t; \theta)
+$$
+
+Average this to get overall loss for the entire training set:
+
+$$
+L = \frac{1}{T} \sum_{t=1}^{T} L_t = -\frac{1}{T} \sum_{t=1}^{T} \log P_{\text{model}}(w_{t+1} \mid w_1, \ldots, w_t; \theta)
+$$
+
+At each time step, the loss is the negative log probability of the actual next word. The total loss is the sum (or average) of losses across all time steps.
+
+## Evaluating Language Models: Perplexity
+
+The standard evaluation metric for Language Models is perplexity:
+
+$$
+\text{Perplexity} = \left( \prod_{t=1}^{T} \frac{1}{P_{\text{LM}}(w_{t+1} \mid w_1, \ldots, w_t)} \right)^{1/T}
+$$
+
+This equals the exponential of the cross-entropy loss:
+
+$$
+\text{Perplexity} = \exp\left( -\frac{1}{T} \sum_{t=1}^{T} \log P_{\text{LM}}(w_{t+1} \mid w_1, \ldots, w_t) \right)
+$$
+
+- Lower bound = 1 (perfect model assigns probability 1 to every next word).
+- Upper bound = vocabulary size .
+- Lower perplexity is better.
+
+## Text Generation with RNNs
+
+You can use an RNN Language Model to generate text by repeated sampling. The sampled output becomes the next step's input.
+
+RNN-LMs can be trained on any kind of text and then generate text in that style:
+- Obama speeches
+- Harry Potter
+- Paint color names (character-level RNN-LM)
+- Poetry generation (improves with more training)
+- Textbook generation
+- C code generation
+
+Character-level RNN-LMs predict what character comes next rather than what word comes next, allowing them to generate novel text at the character level.
+
+### Applications of Language Modeling
+
+Language Modeling is a benchmark task that helps measure progress on understanding language. It is a subcomponent of many NLP tasks:
+- Predictive typing
+- Speech recognition
+- Handwriting recognition
+- Spelling/grammar correction
+- Authorship identification
+- Machine translation
+- Summarization
+- Dialogue
+
+## Neural Machine Translation
+
+### Sequence-to-Sequence Model
+
+Neural Machine Translation (NMT) uses a single neural network with a sequence-to-sequence (seq2seq) architecture involving two RNNs:
+
+- Encoder RNN: produces an encoding of the source sentence, providing the initial hidden state for the Decoder RNN.
+- Decoder RNN: a Language Model that generates the target sentence, conditioned on the encoding.
+
+The encoding captures all information about the source sentence. At test time, the decoder output is fed in as the next step's input.
+
+### Greedy Decoding
+
+Greedy decoding takes the argmax (most probable word) on each step of the decoder:
+
+Problem with greedy decoding: there is no way to undo decisions. If an early incorrect choice is made (e.g., "he hit a..." when the correct translation should be "he hit me..."), there's no going back.
+
+### Exhaustive Search Decoding
+
+Ideally, we want to find the length- translation that maximizes:
+
+$$
+P(y \mid x) = \prod_{t=1}^{T} P(y_t \mid y_1, \ldots, y_{t-1}, x)
+$$
+
+Computing all possible sequences would mean tracking possible partial translations on each step, where is vocabulary size. This complexity is far too expensive.
+
+### Beam Search Decoding
+
+Core idea: on each step of the decoder, keep track of the most probable partial translations (called hypotheses).
+
+- is the beam size (in practice around 5 to 10).
+- A hypothesis has a score equal to its log probability:
+
+$$
+\text{score}(y_1, \ldots, y_t) = \log P_{\text{LM}}(y_1, \ldots, y_t \mid x) = \sum_{i=1}^{t} \log P_{\text{LM}}(y_i \mid y_1, \ldots, y_{i-1}, x)
+$$
+
+Scores are all negative, and higher (closer to 0) is better.
+
+Algorithm:
+1. Start with the `START` token.
+2. For each of the hypotheses, find the top next words and compute their scores.
+3. Of these candidates, keep only the with the highest scores.
+4. Repeat until stopping criterion.
+
+Stopping criteria:
+- When a hypothesis produces `END`, that hypothesis is complete — set it aside and continue exploring.
+- Continue until reaching timestep (pre-defined cutoff), or having at least completed hypotheses.
+
+Selection: longer hypotheses have lower (more negative) scores. Normalize by length to select the top one:
+
+$$
+\text{score}_{\text{norm}}(y) = \frac{1}{T} \sum_{t=1}^{T} \log P(y_t \mid y_1, \ldots, y_{t-1}, x)
+$$
+
+Beam search is not guaranteed to find the optimal solution, but is much more efficient than exhaustive search.
+
+### BLEU Evaluation
+
+BLEU (Bilingual Evaluation Understudy) compares machine-written translations to one or more human-written translations and computes a similarity score based on:
+- n-gram precision (usually for 1, 2, 3, and 4-grams).
+- A penalty for too-short system translations (brevity penalty).
+
+BLEU is useful but imperfect:
+- There are many valid ways to translate a sentence.
+- A good translation can get a poor BLEU score because it has low n-gram overlap with the human reference.
+
+NMT has been the biggest success story of NLP Deep Learning — going from a fringe research activity in 2014 to the leading standard method in 2016. Google Translate switched from SMT to NMT in 2016. SMT systems built by hundreds of engineers over many years were outperformed by NMT systems trained by a handful of engineers in a few months.
+
+However, machine translation is not fully solved. Challenges remain:
+- Out-of-vocabulary words
+- Domain mismatch between train and test data
+- Maintaining context over longer text
+- Low-resource language pairs
+- Common-sense reasoning
+- Biases in training data
+
+## Attention Mechanism
+
+### The Bottleneck Problem
+
+In the vanilla seq2seq model, the encoder must compress the entire source sentence into a single fixed-length vector. This creates an information bottleneck — it needs to capture all information about the source sentence, which becomes increasingly difficult for longer sentences.
+
+### Sequence-to-Sequence with Attention
+
+Attention provides a solution to the bottleneck problem. Core idea: on each step of the decoder, use a direct connection to the encoder to focus on a particular part of the source sequence.
+
+At each decoder timestep:
+1. Compute attention scores between the decoder hidden state and each encoder hidden state.
+2. Apply softmax to obtain the attention distribution (a probability distribution summing to 1).
+3. Compute the attention output as a weighted sum of encoder hidden states.
+4. Concatenate the attention output with the decoder hidden state, then use this to compute the output distribution as before.
+
+### Attention in Equations
+
+Given encoder hidden states , on timestep with decoder hidden state :
+
+Attention scores:
+
+$$
+e_{t,i} = \text{score}(h_t^{\text{dec}}, h_i^{\text{enc}})
+$$
+
+Common scoring functions include dot product:
+
+$$
+e_{t,i} = (h_t^{\text{dec}})^T h_i^{\text{enc}}
+$$
+
+Attention distribution (softmax):
+
+$$
+\alpha_{t,i} = \frac{\exp(e_{t,i})}{\sum_{j=1}^{N} \exp(e_{t,j})}
+$$
+
+where and .
+
+Attention output (weighted sum):
+
+$$
+a_t = \sum_{i=1}^{N} \alpha_{t,i} h_i^{\text{enc}}
+$$
+
+Finally, concatenate with decoder hidden state and compute the output:
+
+$$
+[\tilde{h}_t^{\text{dec}}] = [h_t^{\text{dec}}; a_t]
+$$
+
+### Benefits of Attention
+
+- Significantly improves NMT performance.
+- Solves the bottleneck problem by allowing the decoder to look directly at the source.
+- Helps with the vanishing gradient problem by providing shortcuts to faraway states.
+- Provides some interpretability — by inspecting the attention distribution, we can see what the decoder was focusing on.
+- We get (soft) alignment for free — the network learns alignment by itself without explicit alignment training.
+
+### Attention as a General Deep Learning Technique
+
+Attention is not limited to seq2seq for MT. More general definition: given a set of vector *values* and a vector *query*, attention computes a weighted sum of the values, dependent on the query. The query *attends* to the values. For example, in seq2seq + attention, each decoder hidden state (query) attends to all encoder hidden states (values).
+
+## Image Captioning with RNNs
+
+### Basic Image Captioning Model
+
+Image captioning generates a text description from an image using a CNN-RNN architecture:
+- A Convolutional Neural Network (CNN) extracts image features.
+- A Recurrent Neural Network (RNN) generates the caption word by word.
+
+The RNN formula is modified to include the image features as an additional input:
+
+$$
+h_t = \tanh(W_{xh} x_t + W_{hh} h_{t-1} + W_{ih} \cdot \text{im})
+$$
+
+where is the image feature vector extracted by the CNN. At each timestep, the model samples a word from the output distribution and feeds it back as input for the next step. Generation stops when an `<END>` token is produced.
+
+### Image Captioning with Attention
+
+The bottleneck problem also affects image captioning — the entire image must be encoded into a single context vector. Using attention, we can compute a new context vector at every time step, with each context vector attending to different image regions.
+
+The image is processed by a CNN to extract spatial features of size , where and are the spatial dimensions and is the feature depth.
+
+At each decoder timestep:
+- Compute alignment scores for each spatial location using an MLP:
+
+$$
+e_{t,i,j} = f_{\text{att}}(h_{t-1}^{\text{dec}}, z_{i,j})
+$$
+
+- Softmax over all locations to get attention weights (sum to 1).
+- Compute the context vector as a weighted sum:
+
+$$
+c_t = \sum_{i,j} \alpha_{t,i,j} z_{i,j}
+$$
+
+- Use this context vector in the decoder:
+
+$$
+y_t = g(y_{t-1}, h_{t-1}, c_t)
+$$
+
+This entire process is differentiable — the model chooses its own attention weights with no attention supervision required.
+
+Attention can be soft (weighted sum over all locations) or hard (sampling one location, requiring reinforcement learning).
+
+## Video Captioning
+
+Video captioning extends image captioning to video by generating a feature representation of the video and decoding it into a sentence.
+
+Approaches include:
+- Mean pooling: extract CNN features from each frame and average them, then feed into an RNN decoder.
+- Sequence-to-sequence for video (S2VT): use an LSTM encoder to encode frame features sequentially, then an LSTM decoder to generate the caption.
+
+The key insight is to treat video captioning as a translation task: encode the visual sequence and decode it into a natural language sentence.
 
 ## References
 
 1. [CS231n Lecture 7](https://cs231n.stanford.edu/slides/2024/lecture_7.pdf)
-
 2. K. Cho, B. van Merrienboer, C. Gulcehre, D. Bahdanau, F. Bougares, H. Schwenk, and Y. Bengio. Learning phrase representations using RNN encoder-decoder for statistical machine translation, 2014. [arXiv:1406.1078](https://arxiv.org/abs/1406.1078).
-
 3. J. Chung, C. Gulcehre, K. Cho, and Y. Bengio. Empirical evaluation of gated recurrent neural networks on sequence modeling, 2014. [arXiv:1412.3555](https://arxiv.org/abs/1412.3555).
-
 4. J. L. Elman. Finding structure in time. Cognitive Science, 14(2):179–211, 1990.
-
 5. K. Hornik, M. Stinchcombe, and H. White. Multilayer feedforward networks are universal approximators. Neural Networks, 2(5):359–366, 1989. ISSN 0893-6080.
-
 6. M. Jordan. Serial order: a parallel distributed processing approach. Advances in Psychological Science, 121:471–495, 1986.
-
 7. H. T. Siegelmann and E. D. Sontag. Turing computability with neural nets. Applied Mathematics Letters, 4(6):77–80, 1991. ISSN 0893-9659.
-
-8. 胡晓武，秦婷婷，李超，邹欣. 智能之门. 高等教育出版社, 北京, 2020. ISBN 9787040541410.
-
-9. 邱锡鹏. 神经网络与深度学习. 机械工业出版社, 北京, 2020. ISBN 9787111649687.
+8. R. Pascanu, T. Mikolov, and Y. Bengio. On the difficulty of training recurrent neural networks, 2013. [PMLR](http://proceedings.mlr.press/v28/pascanu13.pdf).
+9. I. Sutskever, O. Vinyals, and Q. V. Le. Sequence to sequence learning with neural networks, 2014. [arXiv:1409.3215](https://arxiv.org/abs/1409.3215).
+10. D. Bahdanau, K. Cho, and Y. Bengio. Neural machine translation by jointly learning to align and translate, 2015. [arXiv:1409.0473](https://arxiv.org/abs/1409.0473).
+11. K. Xu, J. Ba, R. Kiros, K. Cho, A. Courville, R. Salakhutdinov, R. Zemel, and Y. Bengio. Show, attend and tell: Neural image caption generation with visual attention, 2015. [arXiv:1502.03044](https://arxiv.org/abs/1502.03044).
+12. A. Karpathy and L. Fei-Fei. Deep visual-semantic alignments for generating image descriptions, 2015. [arXiv:1412.2306](https://arxiv.org/abs/1412.2306).
+13. O. Vinyals, A. Toshev, S. Bengio, and D. Erhan. Show and tell: A neural image caption generator, 2015. [arXiv:1411.4555](https://arxiv.org/abs/1411.4555).
+14. S. Venugopalan, M. Rohrbach, J. Donahue, R. Mooney, T. Darrell, and K. Saenko. Sequence to sequence - video to text, 2015. [arXiv:1505.00487](https://arxiv.org/abs/1505.00487).
+15. S. Venugopalan, H. Xu, J. Donahue, M. Rohrbach, R. Mooney, and K. Saenko. Translating videos to natural language using deep recurrent neural networks, 2015. [arXiv:1412.4729](https://arxiv.org/abs/1412.4729).
+16. K. Papineni, S. Roukos, T. Ward, and W. Zhu. BLEU: a method for automatic evaluation of machine translation, 2002. [ACL](https://aclanthology.org/P02-1040/).
+17. K. He, X. Zhang, S. Ren, and J. Sun. Deep residual learning for image recognition, 2015. [arXiv:1512.03385](https://arxiv.org/abs/1512.03385).
