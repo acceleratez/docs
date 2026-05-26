@@ -543,8 +543,12 @@ $$
   > $$
   > M步：
   > $$
-  > \mu_j^{new} = \frac{\sum_{i=1}^N r_{ij} x_i}{\sum_{i=1}^N r_{ij}}\\
-  > \Sigma_j^{new} = \frac{\sum_{i=1}^N r_{ij} (x_i - \mu_j^{new})(x_i - \mu_j^{new})^T}{\sum_{i=1}^N r_{ij}}\\
+  > \mu_j^{new} = \frac{\sum_{i=1}^N r_{ij} x_i}{\sum_{i=1}^N r_{ij}}
+> $$
+> $$
+  > \Sigma_j^{new} = \frac{\sum_{i=1}^N r_{ij} (x_i - \mu_j^{new})(x_i - \mu_j^{new})^T}{\sum_{i=1}^N r_{ij}}
+> $$
+> $$
   > \pi_j^{new} = \frac{\sum_{i=1}^N r_{ij}}{N}
   > $$
 
