@@ -7,18 +7,32 @@ export default defineConfig({
   description: "A VitePress Site",
   markdown: {
     math: true,
+    image: {
+      lazyLoading: true,
+    },
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Personal Homepage", link: "https://acceleratez.github.io" },
       { text: "Docs Homepage", link: "/" },
-      { text: "DSA", link: "/dsa/index" },
+      {
+        text: "Computer Science",
+        items: [
+          { text: "Data Structures and Algorithms", link: "/dsa/index" },
+          {
+            text: "Theory of Computation",
+            link: "/theory-of-computation/index",
+          },
+          {
+            text: "Parallel and Distributed System",
+            link: "/parallel-distributed-system/index",
+          },
+        ],
+      },
       {
         text: "Math",
-        items: [
-          { text: "Convex Optimization", link: "/convex/index" },
-        ],
+        items: [{ text: "Convex Optimization", link: "/convex/index" }],
       },
       {
         text: "ML and DL",
@@ -27,7 +41,7 @@ export default defineConfig({
           { text: "Deep Learning", link: "/deep-learning/index" },
           { text: "INFSCI0310", link: "/infsci0310/index" },
           { text: "INFSCI0510", link: "/infsci0510/index" },
-          { text: "Advanced ML and DL", link: "/advanced-ml-dl/index" },
+          { text: "LLM", link: "/llm/index" },
         ],
       },
     ],
@@ -68,18 +82,113 @@ export default defineConfig({
         },
       ],
 
+      "/theory-of-computation": [
+        {
+          items: [
+            { text: "Overview", link: "/theory-of-computation/index" },
+            {
+              text: "Ch1: Finite Automata",
+              link: "/theory-of-computation/finite-automata",
+            },
+            {
+              text: "Ch2: Regular Expressions",
+              link: "/theory-of-computation/regular-expressions",
+            },
+            {
+              text: "Ch3: Context-Free Grammars",
+              link: "/theory-of-computation/context-free-grammars",
+            },
+            {
+              text: "Ch4: Pushdown Automata",
+              link: "/theory-of-computation/pushdown-automata",
+            },
+            {
+              text: "Ch5: Pumping Lemma for CFL",
+              link: "/theory-of-computation/pumping-lemma-cfl",
+            },
+            {
+              text: "Ch6: Turing Machines",
+              link: "/theory-of-computation/turing-machines",
+            },
+            {
+              text: "Ch7: Undecidability",
+              link: "/theory-of-computation/undecidability",
+            },
+            {
+              text: "Ch8: Intractable Problems",
+              link: "/theory-of-computation/intractable-problems",
+            },
+          ],
+        },
+      ],
+
+      "/parallel-distributed-system": [
+        {
+          items: [
+            { text: "Overview", link: "/parallel-distributed-system/index" },
+            {
+              text: "Ch1: Introduction to Parallel Computing",
+              link: "/parallel-distributed-system/introduction-parallel-computing",
+            },
+            {
+              text: "Ch2: Parallel Programming Platforms",
+              link: "/parallel-distributed-system/parallel-programming-platforms",
+            },
+            {
+              text: "Ch3: Parallel Algorithm Design",
+              link: "/parallel-distributed-system/parallel-algorithm-design",
+            },
+            {
+              text: "Ch4: Performance Evaluation",
+              link: "/parallel-distributed-system/performance-evaluation",
+            },
+            {
+              text: "Ch5: MPI Message Passing",
+              link: "/parallel-distributed-system/mpi-message-passing",
+            },
+            {
+              text: "Ch6: GPU Architecture and CUDA",
+              link: "/parallel-distributed-system/gpu-cuda-programming",
+            },
+            {
+              text: "Ch7: Synchronization and Concurrency",
+              link: "/parallel-distributed-system/synchronization",
+            },
+            {
+              text: "Ch8: Advanced Topics",
+              link: "/parallel-distributed-system/advanced-topics",
+            },
+          ],
+        },
+      ],
+
       "/convex": [
         {
           items: [
             { text: "Overview", link: "/convex/index" },
-            { text: "Ch1: Mathematical Background", link: "/convex/chapter-01-mathematical-background" },
-            { text: "Ch2: Convex Sets", link: "/convex/chapter-02-convex-sets" },
-            { text: "Ch3: Convex Functions", link: "/convex/chapter-03-convex-functions" },
-            { text: "Ch4: Convex Optimization Problems", link: "/convex/chapter-04-convex-optimization-problems" },
-            { text: "Ch5: Duality", link: "/convex/chapter-05-duality" },
-            { text: "Ch11: Interior-Point Methods", link: "/convex/chapter-11-interior-point-methods" },
-            { text: "Cheatsheet: Problem Forms", link: "/convex/cheatsheet-problem-forms" },
-            { text: "Cheatsheet: Convexity Equivalences", link: "/convex/cheatsheet-convex-transformations" },
+            {
+              text: "Ch1: Mathematical Background",
+              link: "/convex/mathematical-background",
+            },
+            { text: "Ch2: Convex Sets", link: "/convex/convex-sets" },
+            { text: "Ch3: Convex Functions", link: "/convex/convex-functions" },
+            {
+              text: "Ch4: Convex Optimization Problems",
+              link: "/convex/convex-optimization-problems",
+            },
+            { text: "Ch5: Duality", link: "/convex/duality" },
+            {
+              text: "Ch11: Interior-Point Methods",
+              link: "/convex/interior-point-methods",
+            },
+            {
+              text: "Cheatsheet: Problem Forms",
+              link: "/convex/cheatsheet-problem-forms",
+            },
+            {
+              text: "Cheatsheet: Convexity Equivalences",
+              link: "/convex/cheatsheet-convex-transformations",
+            },
           ],
         },
       ],
@@ -109,31 +218,25 @@ export default defineConfig({
               text: "10-降维与度量值学习",
               link: "/machine-learning/dimensionality-reduction",
             },
-          ],
-        },
-      ],
-      "/advanced-ml-dl": [
-        {
-          items: [
             {
               text: "11-特征选择与稀疏学习",
-              link: "/advanced-ml-dl/feature-selection",
+              link: "/machine-learning/feature-selection",
             },
             {
               text: "12-计算学习理论",
-              link: "/advanced-ml-dl/computational-learning-theory",
+              link: "/machine-learning/computational-learning-theory",
             },
             {
               text: "13-半监督学习",
-              link: "/advanced-ml-dl/semi-supervised-learning",
+              link: "/machine-learning/semi-supervised-learning",
             },
             {
               text: "14-概率图模型",
-              link: "/advanced-ml-dl/probabilistic-graphical-model",
+              link: "/machine-learning/probabilistic-graphical-model",
             },
             {
               text: "15-强化学习",
-              link: "/advanced-ml-dl/reinforcement-learning",
+              link: "/machine-learning/reinforcement-learning",
             },
           ],
         },
@@ -156,11 +259,23 @@ export default defineConfig({
         {
           items: [
             { text: "Overview", link: "/deep-learning/index" },
-            { text: "Introduction to Deep Learning", link: "/deep-learning/introduction" },
-            { text: "Convolutional Neural Networks", link: "/deep-learning/convolutional-neural-network" },
-            { text: "Recurrent Neural Networks", link: "/deep-learning/recurrent-neural-network" },
+            {
+              text: "Introduction to Deep Learning",
+              link: "/deep-learning/introduction",
+            },
+            {
+              text: "Convolutional Neural Networks",
+              link: "/deep-learning/convolutional-neural-network",
+            },
+            {
+              text: "Recurrent Neural Networks",
+              link: "/deep-learning/recurrent-neural-network",
+            },
             { text: "Transformers", link: "/deep-learning/transformer" },
-            { text: "Self-Supervised Learning", link: "/deep-learning/self-supervised-learning" },
+            {
+              text: "Self-Supervised Learning",
+              link: "/deep-learning/self-supervised-learning",
+            },
           ],
         },
       ],
@@ -201,6 +316,153 @@ export default defineConfig({
               link: "/infsci0310/python-basics",
             },
             { text: "09-P-and-NP", link: "/infsci0310/p-and-np" },
+          ],
+        },
+      ],
+      "llm/nlp-basics/": [
+        {
+          text: "NLP Basic",
+          items: [
+            { text: "概述", link: "/llm/nlp-basics" },
+            { text: "自注意力", link: "/llm/nlp-basics/self-attention" },
+            { text: "Transformer", link: "/llm/nlp-basics/transformer" },
+            { text: "分词器", link: "/llm/nlp-basics/tokenizer" },
+            { text: "位置编码", link: "/llm/nlp-basics/positional-encoding" },
+            { text: "解码", link: "/llm/nlp-basics/decoding" },
+            { text: "归一化", link: "/llm/nlp-basics/normalization" },
+            { text: "嵌入", link: "/llm/nlp-basics/embedding" },
+          ],
+        },
+      ],
+      "llm/pre-training/": [
+        {
+          text: "Pre-Training",
+          items: [
+            { text: "概述", link: "/llm/pre-training" },
+            {
+              text: "预训练定义",
+              link: "/llm/pre-training/pretraining-definition",
+            },
+            {
+              text: "预训练数据集",
+              link: "/llm/pre-training/pretraining-datasets",
+            },
+            {
+              text: "预训练流程",
+              link: "/llm/pre-training/pretraining-process",
+            },
+            {
+              text: "预训练评估",
+              link: "/llm/pre-training/pretraining-evaluation",
+            },
+            {
+              text: "继续预训练",
+              link: "/llm/pre-training/continual-pretraining",
+            },
+          ],
+        },
+      ],
+      "llm/post-training/": [
+        {
+          text: "Post-Training",
+          items: [
+            { text: "概述", link: "/llm/post-training" },
+            {
+              text: "模型微调（SFT）",
+              link: "/llm/post-training/fine-tuning-sft",
+            },
+            {
+              text: "强化学习",
+              link: "/llm/post-training/reinforcement-learning",
+            },
+            { text: "模型压缩", link: "/llm/post-training/model-compression" },
+            {
+              text: "分布式训练",
+              link: "/llm/post-training/distributed-training",
+            },
+            {
+              text: "调参技巧",
+              link: "/llm/post-training/hyperparameter-tuning",
+            },
+            {
+              text: "Flash Attention",
+              link: "/llm/post-training/flash-attention",
+            },
+            { text: "提示工程", link: "/llm/post-training/prompt-engineering" },
+            {
+              text: "延伸方法",
+              link: "/llm/post-training/extension-more-approaches",
+            },
+          ],
+        },
+      ],
+      "llm/model-inference/": [
+        {
+          text: "Model Inference",
+          items: [
+            { text: "概述", link: "/llm/model-inference" },
+            {
+              text: "推理两阶段",
+              link: "/llm/model-inference/inference-two-stages-prefill-decode",
+            },
+            { text: "KV Cache", link: "/llm/model-inference/kv-cache" },
+            { text: "vLLM", link: "/llm/model-inference/vllm" },
+            {
+              text: "推理评估",
+              link: "/llm/model-inference/inference-evaluation",
+            },
+            {
+              text: "推理重要论文",
+              link: "/llm/model-inference/important-inference-papers",
+            },
+            {
+              text: "投机解码",
+              link: "/llm/model-inference/speculative-decoding",
+            },
+            {
+              text: "推理链压缩",
+              link: "/llm/model-inference/reasoning-chain-compression",
+            },
+          ],
+        },
+      ],
+      "llm/rag/": [
+        {
+          text: "RAG",
+          items: [
+            { text: "概述", link: "/llm/rag" },
+            { text: "RAG", link: "/llm/rag/rag" },
+            { text: "Chunking-free RAG", link: "/llm/rag/chunking-free-rag" },
+            { text: "向量索引", link: "/llm/rag/vector-indexing" },
+            { text: "ReRank", link: "/llm/rag/rerank" },
+            { text: "Long Context", link: "/llm/rag/long-context" },
+            { text: "GraphRAG", link: "/llm/rag/graphrag" },
+            { text: "Agentic RAG", link: "/llm/rag/agentic-rag" },
+          ],
+        },
+      ],
+      "llm/agents/": [
+        {
+          text: "Agent",
+          items: [
+            { text: "概述", link: "/llm/agents" },
+            { text: "Agent 概述", link: "/llm/agents/agent-overview" },
+            { text: "Agent 分类", link: "/llm/agents/agent-classification" },
+            { text: "Planning", link: "/llm/agents/planning" },
+            { text: "Memory", link: "/llm/agents/memory" },
+            { text: "Tool", link: "/llm/agents/tool" },
+            {
+              text: "多智能体失败原因",
+              link: "/llm/agents/why-multi-agent-fail",
+            },
+            { text: "MCP", link: "/llm/agents/mcp" },
+            { text: "Skills", link: "/llm/agents/skills" },
+            { text: "OpenClaw 原则", link: "/llm/agents/openclaw-principle" },
+            { text: "Hermes", link: "/llm/agents/hermes" },
+            {
+              text: "落地工程",
+              link: "/llm/agents/harness-engineering",
+            },
           ],
         },
       ],

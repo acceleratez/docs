@@ -6,12 +6,12 @@ Convex optimization lies at the heart of modern machine learning, control, signa
 
 ## Chapters
 
-- [**Chapter 1: Mathematical Background**](./chapter-01-mathematical-background) — Inner products, norms, matrix algebra, calculus preliminaries
-- [**Chapter 2: Convex Sets**](./chapter-02-convex-sets) — Affine sets, convex sets, cones, hyperplanes, separating hyperplane theorem
-- [**Chapter 3: Convex Functions**](./chapter-03-convex-functions) — Definitions, properties, first/second-order conditions, smooth and strongly convex functions
-- [**Chapter 4: Convex Optimization Problems**](./chapter-04-convex-optimization-problems) — Standard form, LP, QP, QCQP, SOCP, SDP, problem hierarchy
-- [**Chapter 5: Duality**](./chapter-05-duality) — Lagrangian, dual function, weak/strong duality, KKT conditions, sensitivity analysis
-- [**Chapter 11: Interior-Point Methods**](./chapter-11-interior-point-methods) — Logarithmic barrier, barrier method, central path
+- [**Chapter 1: Mathematical Background**](./mathematical-background) — Inner products, norms, matrix algebra, calculus preliminaries
+- [**Chapter 2: Convex Sets**](./convex-sets) — Affine sets, convex sets, cones, hyperplanes, separating hyperplane theorem
+- [**Chapter 3: Convex Functions**](./convex-functions) — Definitions, properties, first/second-order conditions, smooth and strongly convex functions
+- [**Chapter 4: Convex Optimization Problems**](./convex-optimization-problems) — Standard form, LP, QP, QCQP, SOCP, SDP, problem hierarchy
+- [**Chapter 5: Duality**](./duality) — Lagrangian, dual function, weak/strong duality, KKT conditions, sensitivity analysis
+- [**Chapter 11: Interior-Point Methods**](./interior-point-methods) — Logarithmic barrier, barrier method, central path
 
 ## Quick Reference
 

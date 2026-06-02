@@ -20,7 +20,8 @@
 
 [INFSCI0510](/infsci0510/supervised-learning)
 
-[Advanced Machine Learning](/advanced-ml-dl/feature-selection)
+[Large Language Model](/llm/)
+
 :::
 
 ### Mathematics
@@ -28,6 +29,8 @@
 ::: warning Mathematics
 
 [数学](/math/index)
+
+[Convex Optimization](./convex/)
 
 :::
 
