@@ -28,6 +28,15 @@ export default defineConfig({
             text: "Parallel and Distributed System",
             link: "/parallel-distributed-system/index",
           },
+          {
+            text: "Computer Architecture",
+            link: "/computer-architecture/index",
+          },
+          { text: "Database", link: "/database/index" },
+          {
+            text: "Interface Design Methodology",
+            link: "/interface-design-methodology/index",
+          },
         ],
       },
       {
@@ -42,6 +51,8 @@ export default defineConfig({
           { text: "INFSCI0310", link: "/infsci0310/index" },
           { text: "INFSCI0510", link: "/infsci0510/index" },
           { text: "LLM", link: "/llm/index" },
+          { text: "Computer Vision", link: "/computer-vision/index" },
+          { text: "Data Mining", link: "/data-mining/index" },
         ],
       },
     ],
@@ -319,6 +330,309 @@ export default defineConfig({
           ],
         },
       ],
+      "/computer-architecture": [
+        {
+          items: [
+            { text: "Overview", link: "/computer-architecture/index" },
+            {
+              text: "Ch1: Introduction",
+              link: "/computer-architecture/introduction",
+            },
+            {
+              text: "Ch2: Measuring Performance",
+              link: "/computer-architecture/performance",
+            },
+            {
+              text: "Ch3: Basic Pipelining",
+              link: "/computer-architecture/pipeline",
+            },
+            {
+              text: "Ch4: Data Hazards",
+              link: "/computer-architecture/data-hazard",
+            },
+            {
+              text: "Ch5: Instruction Level Parallelism",
+              link: "/computer-architecture/ilp",
+            },
+            {
+              text: "Ch6: Branch Prediction",
+              link: "/computer-architecture/branch-prediction",
+            },
+            {
+              text: "Ch7: Out-of-Order Processors",
+              link: "/computer-architecture/out-of-order",
+            },
+            {
+              text: "Ch8: Cache Hierarchy",
+              link: "/computer-architecture/cache",
+            },
+            {
+              text: "Ch9: Virtual Memory",
+              link: "/computer-architecture/virtual-memory",
+            },
+            {
+              text: "Ch10: Memory & DRAM",
+              link: "/computer-architecture/memory",
+            },
+            {
+              text: "Ch11: Multiprocessors",
+              link: "/computer-architecture/multiprocessor",
+            },
+          ],
+        },
+      ],
+
+      "/computer-vision": [
+        {
+          items: [
+            { text: "Overview", link: "/computer-vision/index" },
+            {
+              text: "Ch1: Introduction",
+              link: "/computer-vision/introduction",
+            },
+            {
+              text: "Ch2: Image Filtering",
+              link: "/computer-vision/image-filtering",
+            },
+            {
+              text: "Ch3: Image Resampling",
+              link: "/computer-vision/image-resampling",
+            },
+            {
+              text: "Ch4: Feature Detection",
+              link: "/computer-vision/feature-detection",
+            },
+            {
+              text: "Ch5: Feature Description and Matching",
+              link: "/computer-vision/feature-description-matching",
+            },
+            {
+              text: "Ch6: Homography and Projective Transformation",
+              link: "/computer-vision/homography-projective",
+            },
+            {
+              text: "Ch7: Stereo Vision",
+              link: "/computer-vision/stereo-vision",
+            },
+            {
+              text: "Ch8: Motion Estimation",
+              link: "/computer-vision/motion-estimation",
+            },
+            {
+              text: "Ch9: Tracking",
+              link: "/computer-vision/tracking",
+            },
+            {
+              text: "Ch10: Introduction to Deep Learning",
+              link: "/computer-vision/intro-deep-learning",
+            },
+            {
+              text: "Ch11-12: Training Deep Learning Models",
+              link: "/computer-vision/training-dl-models",
+            },
+            {
+              text: "Ch13: Encoder-Decoder for Latent Analysis",
+              link: "/computer-vision/encoder-decoder",
+            },
+            {
+              text: "Ch14: Convolutional Neural Networks",
+              link: "/computer-vision/cnns",
+            },
+            {
+              text: "Ch15: Recurrent Neural Networks",
+              link: "/computer-vision/rnns",
+            },
+            {
+              text: "Ch16: Vision Transformer",
+              link: "/computer-vision/vision-transformer",
+            },
+            {
+              text: "Ch17: GANs",
+              link: "/computer-vision/gans",
+            },
+            {
+              text: "Ch18: Diffusion Models",
+              link: "/computer-vision/diffusion-models",
+            },
+            {
+              text: "Ch19: Object Recognition",
+              link: "/computer-vision/object-recognition",
+            },
+          ],
+        },
+      ],
+
+      "/database": [
+        {
+          items: [
+            { text: "Overview", link: "/database/index" },
+            {
+              text: "Ch1: Introduction to Databases",
+              link: "/database/introduction",
+            },
+            {
+              text: "Ch2: Database System Concepts and Architecture",
+              link: "/database/database-architecture",
+            },
+            {
+              text: "Ch3: Entity-Relationship Model",
+              link: "/database/entity-relationship",
+            },
+            {
+              text: "Ch5: Relational Data Model and Constraints",
+              link: "/database/relational-model",
+            },
+            {
+              text: "Ch6: Basic SQL",
+              link: "/database/sql",
+            },
+            {
+              text: "Ch7: More SQL",
+              link: "/database/advanced-sql",
+            },
+            {
+              text: "Ch8: Relational Algebra and Calculus",
+              link: "/database/relational-algebra",
+            },
+            {
+              text: "Ch14: Functional Dependencies and Normalization",
+              link: "/database/normalization",
+            },
+            {
+              text: "Ch16: Disk Storage, File Structures, Hashing",
+              link: "/database/storage",
+            },
+            {
+              text: "Ch17: Indexing Structures and Physical Design",
+              link: "/database/indexing",
+            },
+            {
+              text: "Ch18: Strategies for Query Processing",
+              link: "/database/query-processing",
+            },
+            {
+              text: "Ch19: Query Optimization",
+              link: "/database/query-optimization",
+            },
+            {
+              text: "Ch20: Transaction Processing",
+              link: "/database/transactions",
+            },
+          ],
+        },
+      ],
+
+      "/data-mining": [
+        {
+          items: [
+            { text: "Overview", link: "/data-mining/index" },
+            {
+              text: "Ch1: Introduction",
+              link: "/data-mining/introduction",
+            },
+            {
+              text: "Ch2: Getting to Know Your Data",
+              link: "/data-mining/data-overview",
+            },
+            {
+              text: "Ch3: Data Preprocessing",
+              link: "/data-mining/preprocessing",
+            },
+            {
+              text: "Ch4: Data Warehousing and OLAP",
+              link: "/data-mining/olap",
+            },
+            {
+              text: "Ch5: Frequent Pattern Mining (Basic)",
+              link: "/data-mining/fpgrowth-basic",
+            },
+            {
+              text: "Ch6: Frequent Pattern Mining (Advanced)",
+              link: "/data-mining/fpgrowth-advanced",
+            },
+            {
+              text: "Ch7: Classification (Basic)",
+              link: "/data-mining/classification-basic",
+            },
+            {
+              text: "Ch8: Classification (Advanced)",
+              link: "/data-mining/classification-advanced",
+            },
+            {
+              text: "Ch9: Cluster Analysis (Basic)",
+              link: "/data-mining/clustering-basic",
+            },
+            {
+              text: "Ch10: Cluster Analysis (Advanced)",
+              link: "/data-mining/clustering-advanced",
+            },
+            {
+              text: "Ch11: Outlier Analysis",
+              link: "/data-mining/outlier-analysis",
+            },
+            {
+              text: "Ch12: Mining Text Data",
+              link: "/data-mining/text-mining",
+            },
+            {
+              text: "Ch13: Mining Web Data",
+              link: "/data-mining/web-mining",
+            },
+          ],
+        },
+      ],
+
+      "/interface-design-methodology": [
+        {
+          items: [
+            {
+              text: "Overview",
+              link: "/interface-design-methodology/index",
+            },
+            {
+              text: "Ch1: The Human and the Computer",
+              link: "/interface-design-methodology/human-computer",
+            },
+            {
+              text: "Ch2: Interaction — Models, Ergonomics and Styles",
+              link: "/interface-design-methodology/interaction",
+            },
+            {
+              text: "Ch3: Interaction Design Basics",
+              link: "/interface-design-methodology/interaction-design",
+            },
+            {
+              text: "Ch4: Design Rules and Usability Principles",
+              link: "/interface-design-methodology/design-rules",
+            },
+            {
+              text: "Ch5: Implementation and Evaluation",
+              link: "/interface-design-methodology/implementation-evaluation",
+            },
+            {
+              text: "Ch6: Universal Design and User Support",
+              link: "/interface-design-methodology/universal-design-support",
+            },
+            {
+              text: "Ch7: Communication and Task Models",
+              link: "/interface-design-methodology/communication-task-models",
+            },
+            {
+              text: "Ch8: Notations and System Models",
+              link: "/interface-design-methodology/notations-system-models",
+            },
+            {
+              text: "Ch9: Interface Design Issues and UI Patterns",
+              link: "/interface-design-methodology/interface-design-issues",
+            },
+            {
+              text: "Ch10: UI and UX Design",
+              link: "/interface-design-methodology/ui-design",
+            },
+          ],
+        },
+      ],
+
       "llm/nlp-basics/": [
         {
           text: "NLP Basic",
