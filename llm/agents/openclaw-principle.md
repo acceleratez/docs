@@ -13,7 +13,7 @@ OpenClaw这个项目本身主要是开发岗的工作，其中一些特殊skills
 
 > 阿里云的部署教程在https://mp.weixin.qq.com/s/Ll49bAhMf_v8LhbZQOUMrw
 
-![Image](images/image_0522.png)
+![Image](images/image_0522.webp)
 
 本文将从**定位、架构、底层内核、设计亮点**四个维度，把 OpenClaw 的运行原理讲透，从技术环节到核心组件，从记忆机制到安全策略，让你既能理解整体逻辑，也能轻松应对面试。
 
@@ -29,7 +29,7 @@ OpenClaw这个项目本身主要是开发岗的工作，其中一些特殊skills
 
 ### 架构：基于通道的任务流水线
 
-![Image](images/image_0523.png)
+![Image](images/image_0523.webp)
 
 OpenClaw 遵循 "核心极小、分层清晰" 的设计哲学，所有用户指令的处理都遵循标准化的流水线流程，从消息接收至结果返回，共分为**5 个技术环节**，环环相扣且职责明确：
 

@@ -15,7 +15,7 @@ Agentic RAG 将 AI Agent 融入了 RAG，采用了 Agent 中的思想，例如 R
 
 - 可扩展、自适应且合乎道德的 AI 系统。
 
-![Image](images/image_0449.png)
+![Image](images/image_0449.webp)
 
 ## RAG 发展历程
 
@@ -23,7 +23,7 @@ Agentic RAG 将 AI Agent 融入了 RAG，采用了 Agent 中的思想，例如 R
 
 Naive RAG 是最基础的一种架构，用于结合检索和生成来处理复杂的任务。下图中的示例依赖于基于关键词的检索技术，如 **TF-IDF 和 BM25**，从静态数据集中获取文档，用于增强模型的生成能力。（Naive RAG 也支持向量检索）
 
-![Image](images/image_0450.png)
+![Image](images/image_0450.webp)
 
 Naive RAG 容易实现，适用于简单的事实查询或上下文复杂性低的任务，但存在以下缺陷：
 
@@ -37,7 +37,7 @@ Naive RAG 容易实现，适用于简单的事实查询或上下文复杂性低�
 
 Advanced RAG 融入语义理解和增强的检索技术。使用**密集检索模型（如 Dense Passage Retrieval，DPR）**和**神经排序算法**来提高检索精度。
 
-![Image](images/image_0451.png)
+![Image](images/image_0451.webp)
 
 Advanced RAG 的核心特性包括：
 
@@ -53,7 +53,7 @@ Advanced RAG 适用于需要高精度和细致理解的应用，例如研究综�
 
 Modular RAG 强调**灵活性**和**定制性**。将检索和生成流程分解为独立、可重用的组件，从而实现领域特定的优化和任务适应性。下图展示了 Modular RAG 的架构，展示了混合检索策略、可组合的流程和外部工具集成。
 
-![Image](images/image_0452.png)
+![Image](images/image_0452.webp)
 
 Modular RAG 的关键创新包括：
 
@@ -69,7 +69,7 @@ Modular RAG 的关键创新包括：
 
 Graph RAG 整合基于图的数据结构扩展了传统的检索增强生成系统，利用图数据中的关系和层次结构，增强了多跳推理和上下文丰富性。通过引入基于图的检索，Graph RAG 能够实现更丰富、更准确的生成输出，特别是在需要关系理解的任务中。
 
-![Image](images/image_0453.png)
+![Image](images/image_0453.webp)
 
 Graph RAG 的特点包括：
 
@@ -352,7 +352,7 @@ Agent 通常由四部分组成：
 
 > 更多关于 Agent 的知识见 4 Agent 篇
 
-![Image](images/image_0454.png)
+![Image](images/image_0454.webp)
 
 ### Reflection
 
@@ -364,21 +364,21 @@ Agent 通常由四部分组成：
 
 规划使代理能够自主地将复杂任务分解为更小、可管理的子任务，创建结构化的工作流程和任务序列，高效地解决问题。目标在于通过分解任务促进多步骤推理，通过优化任务优先级减少计算开销。例如，一个财务分析系统规划数据检索任务，以评估风险并提供建议。与反思等确定性工作流程相比，规划可能产生较不可预测的结果。
 
-![Image](images/image_0455.png)
+![Image](images/image_0455.webp)
 
-![Image](images/image_0456.png)
+![Image](images/image_0456.webp)
 
 ### Tool Use
 
 代理与外部工具、API 和知识库互动来扩展其能力。目标在于将系统功能扩展到预训练知识之外，通过集成外部资源实现特定领域的应用。通过将工具动态集成到工作流程中，代理可以适应复杂任务并提供更准确和与上下文相关的输出。例如，法务助理代理人从合同数据库中检索条款，并应用特定领域的规则进行合规性分析。
 
-![Image](images/image_0457.png)
+![Image](images/image_0457.webp)
 
 ### Multi-Agent
 
 多个代理协同工作以解决复杂任务，代理之间进行通信和共享中间结果，确保整体工作流程高效和连贯。通过将子任务分配给专门的代理，这种模式提高了复杂工作流程的可扩展性和适应性。每个代理都有自己的记忆和工作流程，可以包括使用工具、反思或规划，实现动态和协作的问题解决。例如，在软件开发中，不同代理分别负责前端、后端、测试、算法。
 
-![Image](images/image_0458.png)
+![Image](images/image_0458.webp)
 
 **提升 Agentic 性能的方法**
 
@@ -400,7 +400,7 @@ Single-Agent Agentic RAG 作为一个集中的决策系统，负责管理信息�
 
 举例：《Search-o1: Agentic Search-Enhanced Large Reasoning Models》
 
-![Image](images/image_0459.png)
+![Image](images/image_0459.webp)
 
 ### Multi-Agent Agentic RAG
 
@@ -408,11 +408,11 @@ Multi-Agent Agentic RAG 通过利用多个专门的代理来处理复杂的工�
 
 举例：《Agentic Retrieval-Augmented Generation for Time Series Analysis》
 
-![Image](images/image_0460.png)
+![Image](images/image_0460.webp)
 
 一个电商场景下的实际案例：
 
-![Image](images/image_0461.png)
+![Image](images/image_0461.webp)
 
 上图案例的回复：
 
@@ -486,7 +486,7 @@ Multi-Agent Agentic RAG 通过利用多个专门的代理来处理复杂的工�
 
 分层 Agentic RAG 系统采用结构化的多层次方法进行信息检索和处理，代理按层次结构组织，高级代理监督和指导低级代理。这种结构实现了多级决策，确保查询由最合适的资源处理。
 
-![Image](images/image_0462.png)
+![Image](images/image_0462.webp)
 
 ### Agentic Corrective RAG
 
@@ -494,13 +494,13 @@ Corrective RAG 引入了自我纠正检索结果的机制，迭代地改进上�
 
 举例：《Agentic AI-Driven Technical Troubleshooting for Enterprise Systems: A Novel Weighted Retrieval-Augmented Generation Paradigm》《Corrective RAG (CRAG)》
 
-![Image](images/image_0463.png)
+![Image](images/image_0463.webp)
 
 ### Adaptive Agentic RAG
 
 其思想在于根据任务需求动态调整检索策略和工作流程。工作流程为：代理评估查询及其上下文 → 基于可用数据和用户需求实时调整检索策略 → 使用动态工作流程合成响应。
 
-![Image](images/image_0464.png)
+![Image](images/image_0464.webp)
 
 ### Graph-Based Agentic RAG
 
@@ -508,10 +508,10 @@ Corrective RAG 引入了自我纠正检索结果的机制，迭代地改进上�
 
 例子：《Agent-G: An Agentic Framework for Graph Retrieval Augmented Generation》
 
-![Image](images/image_0465.png)
+![Image](images/image_0465.webp)
 
 ### Agentic 文档工作流
 
 Agentic Document Workflows 通过实现端到端的知识工作自动化，扩展了传统的 RAG 范式。这些工作流程协调以文档为中心的复杂过程，集成了文档解析、检索、推理和结构化输出，并与智能代理结合。
 
-![Image](images/image_0466.png)
+![Image](images/image_0466.webp)

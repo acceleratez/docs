@@ -21,7 +21,7 @@ description: 多 Agent 协作的挑战和解决方案
 
 **研究背景**：MAS允许多个 LLM 智能体协作完成任务，理论上能比单个智能体取得更好的效果（将复杂任务拆解，每个Agent只完成其中一部分，理论上肯定比一个Agent全包好）。但**现实中MAS却在基准测试上的性能提升仍然微乎其微**，下图中主流的MAS框架ChatDev在某些任务中的正确率低至25%。
 
-![Image](images/image_0503.png)
+![Image](images/image_0503.webp)
 
 **论文贡献**：
 
@@ -61,7 +61,7 @@ description: 多 Agent 协作的挑战和解决方案
 
 - 为实现自动化注释，实现了**LLM-as-a-Judge**，few-shot形式gpt-o1的**Cohen's Kappa** 达到0.77。
 
-![Image](images/image_0504.png)
+![Image](images/image_0504.webp)
 
 **Cohen's Kappa：一种衡量分类一致性的指标**
 
@@ -98,7 +98,7 @@ $p_e$ = 0.285714 + 0.214285 = 0.5
 
 ## 失败模式分析
 
-![Image](images/image_0505.png)
+![Image](images/image_0505.webp)
 
 ### 规范与系统设计问题
 

@@ -1088,7 +1088,7 @@ while (队列不为空) {
 
 例子：对于下面的图来说，一个可能的拓扑排序可以是`[1,3,2,4,5,6,7,8]`。拓扑排序的结果不唯一。
 
-![img](https://oscimg.oschina.net/oscnet/up-8f6717028963b3bea2b37a3ce72eae8f784.png)
+![img](https://oscimg.oschina.net/oscnet/up-8f6717028963b3bea2b37a3ce72eae8f784.webp)
 
 ## 实现：零入度算法
 

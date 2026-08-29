@@ -7,7 +7,7 @@ description: 分词算法、BPE、SentencePiece 详解
 
 这一节中的图都出自[《大语言模型LLM基础之Tokenizer完全介绍》](https://www.bilibili.com/video/BV1Fc411C7sz/?spm_id_from=333.337.search-card.all.click&vd_source=f66cebc7ed6819c67fca9b4fa3785d39)，视频讲解的非常清晰。
 
-![Image](images/image_0030.png)
+![Image](images/image_0030.webp)
 
 ## Word-based Tokenizer
 
@@ -29,11 +29,11 @@ BPE的输入是一个语料库（Corpus），以英文举例包括很多的单�
 
 - **词表合并**：将最常出现的相邻Token加入到词表中。
 
-![Image](images/image_0031.png)
+![Image](images/image_0031.webp)
 
-![Image](images/image_0032.png)
+![Image](images/image_0032.webp)
 
-![Image](images/image_0033.png)
+![Image](images/image_0033.webp)
 
 #### BPE 训练过程详解
 
@@ -92,7 +92,7 @@ return vocabulary
 
 BPE的缺点在于其初始词表很大。**BBPE用两个字节表示一个Token的Unicode码**，将Unicode码作为基础Token。
 
-![Image](images/image_0034.png)
+![Image](images/image_0034.webp)
 
 #### BBPE 与 BPE 的对比
 
@@ -119,31 +119,31 @@ BPE的缺点在于其初始词表很大。**BBPE用两个字节表示一个Token
 
 与BPE的思路基本一样，区别在于合并的规则不同。BPE选择频率最高的Token对进行合并，而WordPiece选择使语言模型似然最大化的Token对进行合并。
 
-![Image](images/image_0035.png)
+![Image](images/image_0035.webp)
 
 ### Unigram Tokenization
 
 先初始化一个很大的词表（包含字母、所有子词）。
 
-![Image](images/image_0036.png)
+![Image](images/image_0036.webp)
 
 **Unigram算法假设每个词都是独立出现的，因此整个单词出现的概率就是其中每个词概率的乘积。**计算出语料库中每个单词出现的最大概率，作为该单词的分词方式。
 
-![Image](images/image_0037.png)
+![Image](images/image_0037.webp)
 
 每一轮删除一个子词，该子词满足删除后负对数似然变得最小。如果每个子词删除后负对数似然大小一样，则随机删除一个。删去$p\%$Loss最小的Token。
 
-![Image](images/image_0038.png)
+![Image](images/image_0038.webp)
 
 ### SentencePiece（使用BBPE或Unigram）
 
-![Image](images/image_0039.png)
+![Image](images/image_0039.webp)
 
 ### 各分词方法对应的常见模型
 
 最后总结一下以上分词方法对应的常见模型：
 
-![Image](images/image_0040.png)
+![Image](images/image_0040.webp)
 
 ## Tokenizer 对模型性能的影响
 

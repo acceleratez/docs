@@ -13,7 +13,7 @@ description: 技能定义、加载、渐进式加载
 
 2025 年 10 月 16 日，Anthropic 公司在 Claude 中引入 Agent Skill，以此提升模型的复杂任务理解与执行能力。社区开发者们发现这种方式简单易用且效果显著，纷纷在各大社区分享使用案例。同年 12 月 18 日，Anthropic 正式将 Agent Skill 发布为开放标准。
 
-![Image](images/image_0517.png)
+![Image](images/image_0517.webp)
 
 ## Agent Skill 是什么？
 
@@ -21,7 +21,7 @@ Skill（技能）本质上是一套**可复用的工作流模板**——把完�
 
 你可以把它想象成给你的 AI 助手写的一份**工作手册**，里面包含：这件事该怎么做、每一步的注意事项、可能遇到什么坑。
 
-![Image](images/image_0518.png)
+![Image](images/image_0518.webp)
 
 一个 Skill 有三层架构：
 
@@ -84,7 +84,7 @@ skill-name/          # 文件夹名称 = Skill 名称（建议英文、小写、
 └── assets/          # 可选：模板、图片等静态资源
 ```
 
-![Image](images/image_0519.png)
+![Image](images/image_0519.webp)
 
 ## 渐进式加载
 

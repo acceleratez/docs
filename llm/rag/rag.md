@@ -9,7 +9,7 @@ description: RAG 流程、查询转换、路由、索引、检索、生成
 
 下图参考：[RAG From Scratch](https://www.youtube.com/playlist?list=PLfaIDFEXuae2LXbO1_PKyVJiQ23ZztA0x)
 
-![Image](images/image_0336.png)
+![Image](images/image_0336.webp)
 
 **RAG 有哪些好处？**
 
@@ -61,7 +61,7 @@ Retrieval 和 Generation 阶段在线运行，对每个用户查询都会实时�
 
 下图描述了 RAG 的基本流程，文档存储在向量数据库中，新的用户查询进来之后，首先向量数据库中检索相关的文档，将检索到的文档加到 prompt 中，由大模型负责生成回复。
 
-![Image](images/image_0337.png)
+![Image](images/image_0337.webp)
 
 **RAG 的核心优化方法主要有两方面**：
 
@@ -73,7 +73,7 @@ Retrieval 和 Generation 阶段在线运行，对每个用户查询都会实时�
 
 属于 RAG Pipeline 的第一阶段，目的是为了将 question 变成更容易检索的形式，提升 retrieval 的效果。
 
-![Image](images/image_0338.png)
+![Image](images/image_0338.webp)
 
 ### Multi Query
 
@@ -88,7 +88,7 @@ def get_unique_union(documents: list[list]):
     return [loads(doc) for doc in unique_docs] 
 ```
 
-![Image](images/image_0339.png)
+![Image](images/image_0339.webp)
 
 ### RAG Fusion
 
@@ -115,7 +115,7 @@ def reciprocal_rank_fusion(results: list[list], k=60):
     return reranked_results 
 ```
 
-![Image](images/image_0340.png)
+![Image](images/image_0340.webp)
 
 ### Decomposition
 
@@ -123,7 +123,7 @@ def reciprocal_rank_fusion(results: list[list], k=60):
 
 - 每个子问题都会影响后续子问题的提问和解答过程，类似逐步推理。
 
-![Image](images/image_0341.png)
+![Image](images/image_0341.webp)
 
 ```Python
 q_a_pairs = "" 
@@ -144,7 +144,7 @@ for q in questions:
 
 - 每个子问题互相不影响，最后合并答案。
 
-![Image](images/image_0342.png)
+![Image](images/image_0342.webp)
 
 ```Python
 def format_qa_pairs(questions, answers):
@@ -200,7 +200,7 @@ def hyde_retrieval(query: str, embed_model, doc_embeddings, doc_ids):
     return results
 ```
 
-![Image](images/image_0343.png)
+![Image](images/image_0343.webp)
 
 ## Routing
 
@@ -220,13 +220,13 @@ def hyde_retrieval(query: str, embed_model, doc_embeddings, doc_ids):
 
 拥有多个资源库，将用户查询 route 到最相关的资源库中进行查询。
 
-![Image](images/image_0344.png)
+![Image](images/image_0344.webp)
 
 ### Semantic Routing
 
 通过语义相似度进行路由，一种特别有用的技术是使用 embeddings 将 query 路由到最相关的 prompt。
 
-![Image](images/image_0345.png)
+![Image](images/image_0345.webp)
 
 ## Query Construction
 
@@ -320,7 +320,7 @@ RAG Pipeline 的第四阶段，将文档拆成 vector 形式，建立索引。
 
 建库时建立一个包含完整文档的 **docstore**，再利用 LLM 对文档做总结，建立一个 **vectorstore** 用于检索。对于输入的 question，先与每个文档的总结进行相似度匹配，再根据匹配到的总结在完整的 docstore 中查询。
 
-![Image](images/image_0348.png)
+![Image](images/image_0348.webp)
 
 该方法特别适用于图像和表格，解决了直接嵌入表格或图像（多模态嵌入）的挑战，使用总结作基于文本相似性搜索。
 
@@ -330,13 +330,13 @@ RAG Pipeline 的第四阶段，将文档拆成 vector 形式，建立索引。
 
 通过创建捕捉更高层次概念的文档摘要来解决这个问题。嵌入并聚类文档，然后总结每个聚类。以**递归**的方式这样做，产生一个包含越来越高层次概念的**摘要树**。摘要和起始文档一起被索引，覆盖用户 query 的范围。
 
-![Image](images/image_0349.png)
+![Image](images/image_0349.webp)
 
 ### ColBERT
 
 文档和问题都先被分解成一个个词（Tokens），然后分别对每个词进行嵌入，得到词级别的嵌入向量。对于问题中的每个词的嵌入，分别与文档中每个词的嵌入进行相似度计算，找到与问题中每个词嵌入最相似的文档词嵌入，并记录下它们之间的最大相似度。然后，每个文档的得分是问题嵌入与文档嵌入中任何一个最大相似度的总和：
 
-![Image](images/image_0350.png)
+![Image](images/image_0350.webp)
 
 ## Retrieval
 
@@ -476,7 +476,7 @@ prompt = ChatPromptTemplate.from_template(template)
 
 ## RAG 面临的问题
 
-![Image](images/image_0354.png)
+![Image](images/image_0354.webp)
 
 1. **内容缺失**：知识库中缺失上下文，RAG 只能提供不精确、甚至是错误的答案。
 

@@ -62,7 +62,7 @@ $$\text{Score}(y_1, y_2, ..., y_L) = \frac{1}{L^\alpha} \sum_{t=1}^{L} \log P(y_
 
 > 面临问题：有可能存在潜在的最佳方案被丢弃，因此Beam Search算法是不完全的，一般用于解空间较大的系统中；计算成本比贪心更高。
 
-![Image](images/image_0062.png)
+![Image](images/image_0062.webp)
 
 ## Top-k 抽样
 
@@ -110,7 +110,7 @@ Top-p越高，候选词越多，多样性越丰富。Top-p越低，候选词越�
 
 ## Temperature（温度参数）
 
-![Image](images/image_0063.png)
+![Image](images/image_0063.webp)
 
 **思路**：通过温度参数，在采样前调整每个词的概率分布。**温度越低，概率分布差距越大，越容易采样到概率大的字；温度越高，概率分布差距越小，增加了低概率字被采样到的机会。**
 

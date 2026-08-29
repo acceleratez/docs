@@ -46,7 +46,7 @@
 
 ## 3 Tensor
 
-![Tensor](../assets/tensor.png)
+![Tensor](../assets/tensor.webp)
 
 1. Definition: A **tensor** is a generalization of vectors and matrices to potentially higher dimensions. In fact, tensor is a multi-dimensional array, which aims to create higher-dimensional data structures (matrices, vectors, scalars).
 2. Attributes: A tensor has several attributes, including the rank, the shape, and the data type. 

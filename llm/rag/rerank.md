@@ -7,7 +7,7 @@ description: 重排序技术、Cross-Encoder、Rerank 模型盘点
 
 **ReRank（重排序）** 作为 RAG 模型中在 retrieve 和 generation 之间的一个重要环节，主要负责在大范围检索完成后对候选文档进行再**精排序**，从而提升最终大模型生成结果的质量和关联性。
 
-![Image](images/image_0367.png)
+![Image](images/image_0367.webp)
 
 **ReRank 的作用：**
 
@@ -55,7 +55,7 @@ description: 重排序技术、Cross-Encoder、Rerank 模型盘点
 
 随着大模型参数量的激增，微调大模型也变得困难。可以通过 prompt 工程来提升 ReRank 效果，不依赖标注数据，而是直接利用 LLM 的语言能力来评估查询与文档的相关性，通过 prompt 引导模型生成相关性评分。这种方法可以分为三种：**Pointwise**、**Listwise** 和 **Pairwise**。
 
-![Image](images/image_0368.png)
+![Image](images/image_0368.webp)
 
 #### Pointwise
 
@@ -91,7 +91,7 @@ $$P_{M_D}(D_s | \rho) = \mathbb{E}_{(q_i, d_i) \in D_s}[S_{M_D}(q_i, d_i)]$$
 
 由于直接计算词表中所有的 token 耗时过长，因而生成器 $M_G$ 只从鉴别器衡量过的 prompt 进行采样。生成器采用 beam search 的方式选取每一轮的 token。整体训练如下：
 
-![Image](images/image_0374.png)
+![Image](images/image_0374.webp)
 
 #### Listwise
 
@@ -143,11 +143,11 @@ Pairwise 方法利用了大模型天生擅长做对比的特点，输入为用�
 
     - Embedding 模型计算整个查询和文档之间的相似度，难以捕捉**词级、句级或精确语义关系**。
 
-![Image](images/image_0377.png)
+![Image](images/image_0377.webp)
 
 - **ReRank**（例如 **Cross-Encoder**）是在初步检索的基础上进行进一步的排序，在用户提出查询时才运行，这让我们能够针对具体查询分析文档的含义，而非仅生成一个泛化的、平均化的含义。缺点是要对用户查询和相关的多个文档一起运行 Transformer 推理，消耗更长的时间。
 
-![Image](images/image_0378.png)
+![Image](images/image_0378.webp)
 
 为什么 ReRank 精度更高？
 
@@ -217,7 +217,7 @@ def write_to_tf_record(writer, tokenizer, query, docs, labels,
 
 通过 GPT 实现 Cross-Encoder 交叉编码器。具体的方法是将 query 和 document 拼接起来一起编码，然后基于获取的对数概率 (log probabilities) 来计算分数。
 
-![Image](images/image_0380.png)
+![Image](images/image_0380.webp)
 
 给定用户查询q，文档集合D，目标是查询最相关的文档d*，基于贝叶斯公式有：
 
@@ -262,13 +262,13 @@ for query in queries:
 
 现有Embedding和ReRank模型的测评效果：
 
-![Image](images/image_0382.png)
+![Image](images/image_0382.webp)
 
 ### cohere-reranker-v3.5
 
 这是个闭源模型，也是采用two-stage retrieval，在第二阶段的rerank采用llm计算用户问题和文档之间的相关性得分。
 
-![Image](images/image_0383.png)
+![Image](images/image_0383.webp)
 
 实现代码：
 
@@ -285,7 +285,7 @@ results = co.rerank(query=query, documents=documents, top_n=3,
 
 如下图所示，系统会首先借助**向量模型**（BGE-M3-Dense）与**稀疏检索模型**（BGE-M3-Sparse）分别从向量数据库与倒排索引中初步获取粗粒度的候选文档（coarse-grained candidates）。紧接着，系统会进一步利用**排序模型**（BGE Re-Ranker）进一步过滤候选集，并最终获得精细的文档集（fine-grained candidates）。
 
-![Image](images/image_0384.png)
+![Image](images/image_0384.webp)
 
 BGE Re-Ranker v2.0 系列排序模型采用了两种不同尺寸的模型基座，基座模型都在多语言数据上训练得到，并且通过引入由CLIP模型生成的vision token，具有文本+图片混合建模能力：
 
@@ -295,7 +295,7 @@ BGE Re-Ranker v2.0 系列排序模型采用了两种不同尺寸的模型基座�
 
 BGE Re-Ranker v2.0 采取了**分层自蒸馏**训练策略，用适度的计算开销换取显著的性能收益（下图 （C））。具体而言，模型最终排序得分（S(0)）被用作教师信号，利用知识蒸馏的方式，模型的各中间层也被学习并赋予了排序能力。在实际应用中，用户可以基于具体场景的算力条件及时延限制灵活选择排序模型的层数。
 
-![Image](images/image_0385.png)
+![Image](images/image_0385.webp)
 
 BGE Re-Ranker v2.0是由BGE-M3等embedding模型作为基座训练而来，由于BGE Re-Rank没有发表对应的论文，因此接下来介绍BGE最著名的模型 BGE M3的《BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation》论文。
 
@@ -351,7 +351,7 @@ BGD-M3的训练流程如下图所示:
 
 - 利用自蒸馏微调embedding模型，在这阶段采用了有标签数据和合成数据。
 
-![Image](images/image_0394.png)
+![Image](images/image_0394.webp)
 
 #### 高效批处理
 
@@ -411,7 +411,7 @@ $$m_i = \begin{cases} b^{2i} & i < a \\ b^{1+2(i-a)} & i \geq a \end{cases}$$
 
 $$a = 2^{\lfloor \log_2 n \rfloor} \quad b = 2^{\frac{-8}{\lfloor \log_2 n \rfloor}}$$
 
-![Image](images/image_0396.png)
+![Image](images/image_0396.webp)
 
 - **Gated Linear Units（GLU）：**对于small模型和base模型，使用GEGLU（GELU激活函数）；对于large模型，使用ReGLU（ReLU激活函数），以提高训练稳定性。
 
@@ -473,7 +473,7 @@ Jina Reranker v2的优点
 
 - 基于编码器训练用于检索的**混合文本表示模型**（TRM）用作第一阶段粗排，和**rerank模型**用作第二阶段精排。
 
-![Image](images/image_0398.png)
+![Image](images/image_0398.webp)
 
 #### 文本编码器
 
@@ -485,7 +485,7 @@ Jina Reranker v2的优点
 
 - 为了加速模型训练，padding后的embedding长度都是64的整数倍。通过**xFormers**框架实现**变长注意力**计算，减少填充（padding）带来的冗余计算，提升训练效率
 
-![Image](images/image_0399.png)
+![Image](images/image_0399.webp)
 
 预训练阶段采用MLM任务，掩盖30%的token，采用AdamW优化器，学习率线性预热与衰减，混合精度训练（BF16）。为了保障多语言能力，提升数据少的语言的训练效果，从所有语言中根据概率采样某种语言的数据，其中$n_i$表示语言i的文档数量。
 
@@ -533,7 +533,7 @@ $$p(l_i) = \frac{n_i^\alpha}{\sum_j n_j^\alpha}$$
 
 ### 架构解析
 
-![Image](images/image_0401.png)
+![Image](images/image_0401.webp)
 
 > 模型架构概览：**左图 (Embedding)**：展示了 Vision Encoder 和 LM Dense Decoder 的结合。注意末尾提取 embedding 的位置是在 PAD token 处，这与 BERT 时代的 `\[CLS\]` 类似，但适配了 LLM 的 Decoder-only 架构。 **右图 (Reranking)**：Query 和 Document 被拼接输入，通过 LM Head 直接输出"yes/no"的概率，实现了 token 级别的细粒度交互。
 
@@ -576,7 +576,7 @@ Reranker 模型采用交叉编码器架构（Cross-encoder），虽然计算成�
 
 #### 三阶段训练策略
 
-![Image](images/image_0402.png)
+![Image](images/image_0402.webp)
 
 > Qwen3-VL-Embedding 和 Qwen3-VL-Reranker 的多阶段训练流程
 

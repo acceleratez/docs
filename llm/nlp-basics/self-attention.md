@@ -13,15 +13,15 @@ description: 自注意力机制原理、多头注意力详解
 
 - **每个向量对应一个标签**：每个标签可能是一个数值（回归问题），也可能是一个类别（分类问题）。例如词性标注、语音识别、用户购买意向预测等。
 
-	![Image](images/image_0001.png)
+	![Image](images/image_0001.webp)
 
 - **整个序列对应一个标签**：例如情感分析、判断分子是否具有亲水性等。
 
-![Image](images/image_0002.png)
+![Image](images/image_0002.webp)
 
 - **机器自主决定输出标签数量**：即序列到序列（Seq2Seq）任务，输入和输出都是长度不固定的序列。
 
-![Image](images/image_0003.png)
+![Image](images/image_0003.webp)
 
 Seq2Seq通过编码器-解码器（Encoder-Decoder）结构实现。传统Seq2Seq的一个主要问题是：在处理长序列时，为了计算两个距离较远的单词之间的关系，需要通过梯度的形式进行传递，容易导致梯度爆炸和梯度消失问题。自注意力（Self-Attention）机制能有效解决这一问题。
 
@@ -29,7 +29,7 @@ Seq2Seq通过编码器-解码器（Encoder-Decoder）结构实现。传统Seq2Se
 
 但当任务需要考虑整个序列时，设置过大的窗口会导致FC参数量过大且容易过拟合。这正是自注意力机制要解决的问题。
 
-![Image](images/image_0004.png)
+![Image](images/image_0004.webp)
 
 ## Self-Attention 原理
 
@@ -43,13 +43,13 @@ Seq2Seq通过编码器-解码器（Encoder-Decoder）结构实现。传统Seq2Se
 
 自注意力会**考虑整个序列的上下文信息**，输入若干个向量，输出相同数量的向量。自注意力可以与全连接层叠加使用：自注意力处理整个序列的上下文，全连接层处理单个向量。
 
-![Image](images/image_0005.png)
+![Image](images/image_0005.webp)
 
 - **运作原理**：
 
 输入是一个序列，可能是网络的输入或隐藏层的输出。输出的向量b是考虑了整个序列上下文后的结果。
 
-![Image](images/image_0006.png)
+![Image](images/image_0006.webp)
 
 如何产生向量$b_1$？
 
@@ -59,21 +59,21 @@ Seq2Seq通过编码器-解码器（Encoder-Decoder）结构实现。传统Seq2Se
 
 - **加法（Additive）**：将$q$和$k$拼接后输入激活函数。
 
-![Image](images/image_0007.png)
+![Image](images/image_0007.webp)
 
-![Image](images/image_0008.png)
+![Image](images/image_0008.webp)
 
 2. 如何将生成的$\alpha$应用到自注意力中？
 
 $\alpha_{1,1} = q^1 \cdot k^1$，经过Softmax进行归一化处理（$q$和$k$分别对应查询向量Query和键向量Key，$q^1 k^2$表示第二个向量对第一个向量的影响程度）。
 
-![Image](images/image_0009.png)
+![Image](images/image_0009.webp)
 
-![Image](images/image_0010.png)
+![Image](images/image_0010.webp)
 
 转化为矩阵格式，可学习参数为$W^q$、$W^k$、$W^v$三个矩阵。注意力矩阵$A'$乘以值矩阵$V$即得到自注意力的输出$O$。
 
-![Image](images/image_0011.png)
+![Image](images/image_0011.webp)
 
 $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
@@ -93,11 +93,11 @@ $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$
 
 上面的输入向量$a$是无序的，需要对$a$加上位置向量$e$。$e$可以通过多种方法产生（**正弦位置编码、位置嵌入、可学习编码、RNN**等）。
 
-![Image](images/image_0013.png)
+![Image](images/image_0013.webp)
 
 2. **多头注意力（Multi-Head Attention）**：把输入序列投影为多组不同的Query、Key、Value，并行分别计算后，再把各组计算的结果合并作为最终的结果。类似CNN中的多个通道（Channel），生成多组$W^q$、$W^k$、$W^v$矩阵。具体来说，$V$、$K$、$Q$三个矩阵通过$h$个线性变换，分别得到$h$组矩阵，每一组经过注意力计算得到$h$个注意力输出，进行拼接（Concat）后通过一个线性变换得到输出，其维度与输入词向量的维度一致。其中$h$就是多头注意力机制的"头数"。
 
-![Image](images/image_0014.png)
+![Image](images/image_0014.webp)
 
 ## Self-Attention 代码
 

@@ -79,7 +79,7 @@ IN和LN的融合，在神经网络的每一层中，**将特征分成若干组�
 
 下图很好地总结了以上介绍的几种归一化方法的示意。
 
-![Image](images/image_0065.png)
+![Image](images/image_0065.webp)
 
 ## RMSNorm
 

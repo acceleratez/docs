@@ -25,7 +25,7 @@
 
   这样一来，可以在一定程度上增加稳定性，从而学习地更快，并且还有一定摆脱局部最优的能力。Momentum算法会观察历史梯度，若当前梯度的方向与历史梯度一致（表明当前样本不太可能为异常点），则会增强这个方向的梯度。若当前梯度与历史梯度方向不一致，则梯度会衰减。
 
-<img src="../assets/momentum_algorithm.png" width="600">
+<img src="../assets/momentum_algorithm.webp" width="600">
 
 
 
@@ -93,8 +93,8 @@
 
 	|   算法   |                       损失函数和准确率                       |
 	| :------: | :----------------------------------------------------------: |
-	|   SGD    |  <img src="../assets/op_sgd_ch09_loss_01.png" width="500">   |
-	| Momentum | <img src="../assets/op_momentum_ch09_loss_01.png" width="500"> |
+	|   SGD    |  <img src="../assets/op_sgd_ch09_loss_01.webp" width="500">   |
+	| Momentum | <img src="../assets/op_momentum_ch09_loss_01.webp" width="500"> |
 
 	对表的解释：
 
@@ -126,7 +126,7 @@
    
    这个改进的目的就是为了提前看到前方的梯度。如果前方的梯度和当前梯度目标一致，那我直接大步迈过去； 如果前方梯度同当前梯度不一致，那我就小心点更新。
    
-   <img src="../assets/nag_algorithm.png" width=500>
+   <img src="../assets/nag_algorithm.webp" width=500>
    
    4. **实际效果**：由于NAG算法是Momentum算法的加速版本，对Momentum算法进行了优化，因此，其可以在更少的`epoch`轮内结束。NAG 可以使 RNN 在很多任务上有更好的表现。
 

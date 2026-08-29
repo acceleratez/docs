@@ -235,7 +235,7 @@ $$
 
 - （形式一）Head-to-Head：形如$X$和$Y$都是$Z$的父节点的情况。如图所示。
 
-![1 _1_.png](https://img2.imgtp.com/2024/05/28/AcwIFLo7.png)
+![1 _1_.webp](https://img2.imgtp.com/2024/05/28/AcwIFLo7.webp)
 
 此时，我们有$P(a,b,c) = P(a)\cdot P(b)\cdot P(c|a,b)$成立。化简得：
 
@@ -247,7 +247,7 @@ $$
 
 - （形式二）Tail-to-Tail：形如$X$和$Y$都是$Z$的子节点的情况。如图所示。
 
-![1 _2_.png](https://img2.imgtp.com/2024/05/28/gFSp8bYs.png)
+![1 _2_.webp](https://img2.imgtp.com/2024/05/28/gFSp8bYs.webp)
 
 考虑$c$未知和$c$已知的情况。
 
@@ -258,7 +258,7 @@ $$
 
 - （形式三）Head-to-Tail：即链式的网络结构。还是分为$c$未知和$c$已知的两种情况。
 
-![1 _3_.png](https://img2.imgtp.com/2024/05/28/DUbbW6Tb.png)
+![1 _3_.webp](https://img2.imgtp.com/2024/05/28/DUbbW6Tb.webp)
 
 1. 当$c$未知，$P(a,b,c)=P(a)\cdot P(c|a)\cdot P(b|c)$，但无法推出$P(a,b) = P(a)P(b)$，即c未知时，a、b不独立。
 2. 当$c$已知，$P(a,b\mid c)=P(a,b,c)/P(c)$，且根据条件概率的有关内容，可以推出$P(a,b\mid c)=P(a\mid c)\cdot P(b\mid c)$，即c已知时，a、b独立。所以，在c给定的条件下，a，b被阻断(blocked)，是独立的，称之为head-to-tail条件独立。
@@ -270,7 +270,7 @@ $$
 >
 > 
 >
-> ![1 _4_.png](https://img2.imgtp.com/2024/05/28/TheEUOf1.png)
+> ![1 _4_.webp](https://img2.imgtp.com/2024/05/28/TheEUOf1.webp)
 >
 > 其中，各个单词、表达式表示的含义如下：
 >
@@ -279,11 +279,11 @@ $$
 >
 > Lung Cancer简记为C，Bronchitis简记为B，dyspnoea简记为D，且C = 0表示lung Cancer不发生的概率，C = 1表示lung Cancer发生的概率，B等于0（B不发生）或1（B发生）也类似于C，同样的，D=1表示D发生的概率，D=0表示D不发生的概率，便可得到dyspnoea的一张概率表，如上图的最右下角所示。
 >
-> ![1 _5_.png](https://img2.imgtp.com/2024/05/28/AaOmdk60.png)
+> ![1 _5_.webp](https://img2.imgtp.com/2024/05/28/AaOmdk60.webp)
 >
 > 对于上图，在一个人已经呼吸困难（dyspnoea）的情况下，其抽烟（smoking）的概率是多少呢？即：P(s|d=1)=?  推导：
 >
-> ![1 _6_.png](https://img2.imgtp.com/2024/05/28/4UiaRTuZ.png)
+> ![1 _6_.webp](https://img2.imgtp.com/2024/05/28/4UiaRTuZ.webp)
 >
 > 解释下上述式子推导过程：
 >
@@ -348,7 +348,7 @@ $$
 
 EM算法也可以看作一种“坐标下降法”，首先固定一个值，对另外一个值求极值，不断重复直到收敛。
 
-![6.png](https://i.loli.net/2018/10/18/5bc843c34e7ff.png)
+![6.webp](https://i.loli.net/2018/10/18/5bc843c34e7ff.webp)
 
 ### EM算法的流程
 
@@ -356,8 +356,8 @@ EM算法也可以看作一种“坐标下降法”，首先固定一个值，对
 
 **版本一：**
 
-![7.png](https://i.loli.net/2018/10/18/5bc843c0e19db.png)
+![7.webp](https://i.loli.net/2018/10/18/5bc843c0e19db.webp)
 
 **版本二：**
 
-![8.png](https://i.loli.net/2018/10/18/5bc843c34775b.png)
+![8.webp](https://i.loli.net/2018/10/18/5bc843c34775b.webp)

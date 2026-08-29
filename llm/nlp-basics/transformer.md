@@ -5,7 +5,7 @@ description: Transformer 架构详解，包括 Encoder 和 Decoder
 
 # Transformer
 
-![Image](images/image_0015.png)
+![Image](images/image_0015.webp)
 
 ## Embedding
 
@@ -42,7 +42,7 @@ $$\max(0, XW_1 + b_1)W_2 + b_2$$
 
 如下图所示，解码过程中会将之前预测的输出作为当前预测的输入。通过掩码矩阵可以防止第$i$个Token知道$i+1$个Token之后的信息。
 
-![Image](images/image_0018.png)
+![Image](images/image_0018.webp)
 
 **掩码矩阵在自注意力的Softmax之前使用。**
 
@@ -50,13 +50,13 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)
 
 其中$d_k$是$Q$、$K$矩阵的列数，即向量维度。
 
-![Image](images/image_0020.png)
+![Image](images/image_0020.webp)
 
 ### Cross-Attention
 
 **这里的K和V矩阵是由Encoder的编码信息矩阵计算得到的，Q是由上一个Decoder Block计算得到的。**
 
-![Image](images/image_0021.png)
+![Image](images/image_0021.webp)
 
 ### Softmax
 

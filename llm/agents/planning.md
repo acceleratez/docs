@@ -144,7 +144,7 @@ print(response)
 
 在需要多步骤推理的任务中，引导语言模型搜索一棵由连贯的语言序列（解决问题的中间步骤）组成的思维树，而不是简单地生成一个答案。ToT框架的核心思想是：让模型生成和评估其思维的能力，并将其与搜索算法（如广度优先搜索和深度优先搜索）结合起来，进行系统性地探索和验证。对于每个任务，将其分解为多个步骤，为每个步骤提出多个方案，在多条思维路径中搜寻最优的方案。
 
-![Image](images/image_0470.png)
+![Image](images/image_0470.webp)
 
 ### LLM+P
 
@@ -156,7 +156,7 @@ PDDL包含领域定义和问题定义两部分：
 
 - **问题定义**：描述一个具体的规划问题，包含初始状态和目标状态
 
-![Image](images/image_0471.png)
+![Image](images/image_0471.webp)
 
 ### ReAct（Reasoning + Acting）
 
@@ -166,7 +166,7 @@ ReAct的任务解决轨迹是**Thought-Action-Observation，**可以简化为模
 
 对比只使用CoT，会导致模型存在幻觉，没有与外部工具交互的功能。而将ReAct框架与CoT结合，就能够让大模型在推理过程同时使用内部知识和获取到的外部信息，提升模型的可解释性和可信度。
 
-![Image](images/image_0472.png)
+![Image](images/image_0472.webp)
 
 langchain实现了ReAct框架：
 
@@ -180,7 +180,7 @@ agent.run(prompt)
 
 React+CoT的训练流程如下，注意之前每轮的输出会加入prompt作为后续轮次模型的输入。
 
-![Image](images/image_0473.png)
+![Image](images/image_0473.webp)
 
 ## 规划算法
 
@@ -196,11 +196,11 @@ ReWoo包含三个部分：
 
 - **Solver**：负责综合所有任务和证据，生成最终答案。
 
-![Image](images/image_0474.png)
+![Image](images/image_0474.webp)
 
 如下图所示，React每一轮的都要将上下文、示例和之前轮次的相应输入到LLM中，带来大量的冗余，并且可能需要调用LLM很多次；ReWoo中Planner负责生成一个子任务列表，并调用Worker从工具中获取证据，根据列表循环执行完成任务，避免了将prompt中一样的内容反复交给LLM，这个过程最少只调用了两次LLM（Planner和Solver各一次）。ReWoo的另一个优点是简化微调过程，由于Planner不依赖于工具的输出，因此可以在不实际调用工具的情况下对Planner进行微调。
 
-![Image](images/image_0475.png)
+![Image](images/image_0475.webp)
 
 ### Plan and Solve
 
@@ -216,7 +216,7 @@ ReWoo包含三个部分：
 
 Plan-and-solve的思想的一大应用就是Plan-and-Execute。Plan-and-Execute相比ReWOO，最大的不同就是加入了**Replan**机制，整体的思考流程如下图。Planner负责生成任务列表，replanner负责当完成一个子任务时进行重新思考，并将原有计划和已经完成的步骤加入prompt中，更新任务列表。
 
-![Image](images/image_0476.png)
+![Image](images/image_0476.webp)
 
 ### LLMCompiler
 
@@ -232,9 +232,9 @@ Plan-and-solve的思想的一大应用就是Plan-and-Execute。Plan-and-Execute�
 
 函数调用规划器负责生成一个包含任务及其相互依赖关系的 DAG（Directed Acyclic Graph，有向无环图）。然后，任务获取单元根据任务的依赖关系将这些任务并行调度到执行器。在本例中，任务 $1 和 $2 被同时获取，以并行执行两个独立的搜索任务。每个任务执行完成后，结果将被转发给任务获取单元，用实际值替换其占位符变量，同时解除被依赖任务的阻塞（例如，任务 $3 中依赖 $1 和 $2）。所有任务执行完成后，最终答案将被传递给用户。
 
-![Image](images/image_0477.png)
+![Image](images/image_0477.webp)
 
-![Image](images/image_0478.png)
+![Image](images/image_0478.webp)
 
 ## 反思
 
@@ -258,7 +258,7 @@ Reflexion包含三个不同的模型：
 
 在提示词方面，要求让大模型针对问题在回答前进行反思和批判性思考，反思包括有没有漏掉(missing)或者重复(Superfluous)，然后回答问题，回答之后再有针对性的修改(Revise)
 
-![Image](images/image_0479.png)
+![Image](images/image_0479.webp)
 
 ### Self Discover
 
@@ -266,7 +266,7 @@ Self-discover 的核心是让大模型在更小粒度上 task 本身进行反思
 
 本方法主要分为两个阶段：利用SELF-DISCOVER 构建了任务特定的推理结构，应用推理结构解决问题。其中第一步又可以分为以下三个操作：
 
-![Image](images/image_0480.png)
+![Image](images/image_0480.webp)
 
 - **选择**：模型从一组原子推理模块（例如"批判性思维"和"逐步思考"）中选择对于解决特定任务有用的模块。模型通过一个元提示来引导选择过程，这个元提示结合了任务示例和原子模块描述。选择过程的目标是确定哪些推理模块对于解决任务是有助的。
 
@@ -274,7 +274,7 @@ Self-discover 的核心是让大模型在更小粒度上 task 本身进行反思
 
 - **实施**：在适应了推理模块之后，Self-Discover框架将这些适应后的推理模块描述转化为一个结构化的可执行计划。这个计划以键值对的形式呈现，类似于JSON，以便于模型理解和执行。这个过程不仅包括元提示，还包括一个人类编写的推理结构示例，帮助模型更好地将自然语言转化为结构化的推理计划。
 
-![Image](images/image_0481.png)
+![Image](images/image_0481.webp)
 
 ### LATS（Language Agent Tree Search）
 
@@ -318,9 +318,9 @@ $$a^* = \arg\max_a N(a)$$
 
 - **reflection**：通过提示工程，让 $p_theta $ 根据轨迹和奖励进行self-relection，总结推理过程中的错误，并选择更好的选项。将错误的轨迹和relection存储在记忆中，在随后的迭代中，这些被加入到agent和value函数的上下文。
 
-![Image](images/image_0486.png)
+![Image](images/image_0486.webp)
 
-![Image](images/image_0487.png)
+![Image](images/image_0487.webp)
 
 ## 近期热门规划框架
 

@@ -17,7 +17,7 @@ RAG 从大规模语料库中检索相关信息，将长文本压缩成简洁、�
 
 为了解决分块带来的问题，提出了一种 **Landmark Embedding** 的方法，在 chunking-free 的情况下实现 RAG。
 
-![Image](images/image_0355.png)
+![Image](images/image_0355.webp)
 
 ## 基础知识
 
@@ -39,9 +39,9 @@ $$LE_i = \text{LLaMA-2-7B}(c_{i-k:i}, \text{LMK}_i)$$
 
 基于上述结果，用户 query 和每个句子之间的相关性表示为两个嵌入的内积：$<E_q, LE_{i}>$。如果进行编码时，输入比大模型的上下文窗口大，采用滑动窗口的方式处理，如下图：
 
-![Image](images/image_0357.png)
+![Image](images/image_0357.webp)
 
-![Image](images/image_0358.png)
+![Image](images/image_0358.webp)
 
 ### Landmark Embedding 详细原理
 

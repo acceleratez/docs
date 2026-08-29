@@ -169,7 +169,7 @@ Logistic回归其实是一个很小的神经网络，对于每一张照片我们
 
 机器学习和深度学习解决方案都需要大量的人工参与才能发挥作用。必须通过人工定义问题、准备数据、选择和训练模型，然后评估、优化和部署解决方案。
 
-![img](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2021/10/06/Figure2-Flow.png)
+![img](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2021/10/06/Figure2-Flow.webp)
 
 机器学习模型可能更易于人们解释，因为它们源自决策树等更简单的数学模型。
 

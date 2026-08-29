@@ -17,7 +17,7 @@ description: 短期记忆、长期记忆、记忆管理与实现
 
 - **记忆增强规划**。该策略通过引入一个附加的记忆组件来提升规划能力，该组件中存储了各种宝贵信息，包括基本常识、历史经验、领域专业知识等。在进行规划时，这些信息会被调取出来，充当辅助提示，以增强规划的效果。分为RAG记忆（即接下来要介绍的Memory）和嵌入式记忆（将RAG知识通过微调嵌入到模型参数里）
 
-![Image](images/image_0488.png)
+![Image](images/image_0488.webp)
 
 记忆模块是智能体存储内部日志的关键组成部分，负责存储过去的思考、行动、观察以及与用户的互动。
 
@@ -71,9 +71,9 @@ agent在与环境交互的过程可以分为3个阶段。
 
 基于以上操作，就可以得到agent做决策的统一表示，下图展示了agent完成一个任务的工作流程。
 
-![Image](images/image_0491.png)
+![Image](images/image_0491.webp)
 
-![Image](images/image_0492.png)
+![Image](images/image_0492.webp)
 
 ## 为什么要使用 Memory-based Agent
 
@@ -85,13 +85,13 @@ agent在与环境交互的过程可以分为3个阶段。
 
 ## 如何实现 Memory-based Agent
 
-![Image](images/image_0493.png)
+![Image](images/image_0493.webp)
 
 ### 记忆来源
 
 如之前介绍的，memory来源主要包含3部分：同一个trial，跨trial跨任务，外部知识。前两部分都来自agent与环境交互，外部知识来自任务以外的环境。代表工作有这些：
 
-![Image](images/image_0494.png)
+![Image](images/image_0494.webp)
 
 - **同一个trial**：同一个trial中的历史步骤是最相关最有信息量的信息，与agent的任务高度相关。这部分信息不仅包括代理环境交互，还包含交互上下文，例如时间和位置信息。
 
@@ -103,7 +103,7 @@ agent在与环境交互的过程可以分为3个阶段。
 
 记忆一般有两种形式：文本和参数化形式。代表工作有这些：
 
-![Image](images/image_0495.png)
+![Image](images/image_0495.webp)
 
 - **文本形式**是目前表示记忆内容的主流方法，具有可解释性更好、更容易实现、读写效率更快的特点。过去的研究主要分为4个方向：
 
@@ -135,7 +135,7 @@ agent在与环境交互的过程可以分为3个阶段。
 
 如上文所述，对记忆的操作主要有写记忆，记忆管理，读记忆。
 
-![Image](images/image_0496.png)
+![Image](images/image_0496.webp)
 
 - **写记忆**：识别哪些信息应该写入记忆至关重要，并且应该对原始信息中的噪声进行处理。此外，环境可能会提供各种形式的反馈，如何从这些反馈中提取有效信息（可能涉及多模态）也至关重要。
 
@@ -161,11 +161,11 @@ agent在与环境交互的过程可以分为3个阶段。
 
     - **长文本应用**：采用文本形式的记忆会一般都会导致比较长的上下文，需要评估agent能否充分理解长文本，并从中检索出对给定问题有用的内容。
 
-![Image](images/image_0497.png)
+![Image](images/image_0497.webp)
 
 ## Agent 记忆机制示例
 
-![Image](images/image_0498.png)
+![Image](images/image_0498.webp)
 
 在上图的例子中，Agent有两个任务：
 

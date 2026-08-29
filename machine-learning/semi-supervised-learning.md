@@ -12,11 +12,11 @@
 
 显然，**主动学习需要与外界进行交互/查询/打标，其本质上仍然属于一种监督学习**。事实上，无标记样本虽未包含标记信息，但它们与有标记样本一样都是从总体中独立同分布采样得到，因此**它们所包含的数据分布信息对学习器的训练大有裨益**。如何让学习过程不依赖外界的咨询交互，自动利用未标记样本所包含的分布信息的方法便是**半监督学习**（semi-supervised learning），**即训练集同时包含有标记样本数据和未标记样本数据**。
 
-![1.png](https://i.loli.net/2018/10/18/5bc856e39801d.png)
+![1.webp](https://i.loli.net/2018/10/18/5bc856e39801d.webp)
 
 此外，半监督学习还可以进一步划分为**纯半监督学习**和**直推学习**，两者的区别在于：前者假定训练数据集中的未标记数据并非待预测数据，而后者假定学习过程中的未标记数据就是待预测数据。
 
-![img](..\assets\13-2-Active-Learning-Pure-Semi-Supervised-Learning-and-Direct-Learning.png)
+![img](..\assets\13-2-Active-Learning-Pure-Semi-Supervised-Learning-and-Direct-Learning.webp)
 
 ## 13.2 生成式方法
 
@@ -92,7 +92,7 @@ $$
 
 &emsp;&emsp;协同训练正是很好地利用了多视图数据的“**相容互补性**”，其基本的思想是：首先基于有标记样本数据在每个视图上都训练一个初始分类器，然后让每个分类器去挑选分类置信度最高的样本并赋予标记，并将带有伪标记的样本数据传给另一个分类器去学习，从而**你依我侬/共同进步**。
 
-![img](..\assets\13-3-Combined-Training.png)
+![img](..\assets\13-3-Combined-Training.webp)
 
 > 输入：有标记样本集$D_l=\{(\langle x_1^1,x_1^2 \rangle, y_1), \ldots, (\langle x_l^1,x_l^2 \rangle, y_l)\}$；  
 > &emsp;&emsp;&emsp;未标记样本集$D_u=\{\langle x_{l+1}^1,x_{l+1}^2  \rangle, \ldots, \langle x_{l+u}^1,x_{l+u}^2 \rangle\}$；  

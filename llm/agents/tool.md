@@ -13,7 +13,7 @@ Agent 与大模型的一大区别在于能够使用外部工具拓展模型能�
 
 Function Call 是一种实现大型语言模型连接外部工具的机制。通过 API 调用 LLM 时，调用方可以描述函数，包括函数的功能描述、请求参数说明、响应参数说明，让 LLM 根据用户的输入，合适地选择调用哪个函数，同时理解用户的自然语言，并转换为调用函数的请求参数（通过 JSON 格式返回）。调用方使用 LLM 返回的函数名称和参数，调用函数并得到响应。最后，如果需要，把函数的响应传给 LLM，让 LLM 组织成自然语言回复用户。
 
-![Image](images/image_0499.png)
+![Image](images/image_0499.webp)
 
 ### Function Calling 工作流程
 
@@ -249,13 +249,13 @@ MRKL 提供一个 **Prompt 模板**，其中包括：
 
 - **对话或任务上下文**：让 LLM 结合上下文做决策。
 
-![Image](images/image_0500.png)
+![Image](images/image_0500.webp)
 
 ## Toolformer
 
 训练了一个用于决定何时调用哪些API、传递什么参数以及如何最佳地将结果进行分析的大模型。这一过程通过**微调**的方法来训练大模型，仅需要每个API几个示例即可, 训练所用的数据集根据新增的 API 调用注释是否能够提高模型输出的质量而进行扩展。该工作集成了一系列工具，包括计算器、问答系统、搜索引擎、翻译系统和日历。
 
-![Image](images/image_0501.png)
+![Image](images/image_0501.webp)
 
 ## HuggingGPT
 
@@ -267,7 +267,7 @@ HuggingGPT是由大型语言模型（LLM）驱动的，设计用来自主处理�
 
 - 最终，ChatGPT将所有模型的预测结果集成起来，为用户生成响应。
 
-![Image](images/image_0502.png)
+![Image](images/image_0502.webp)
 
 HuggingGPT的这种工作方式不仅扩展了传统单一模式处理的能力，而且通过其智能的模型选择和任务执行机制，在跨领域任务中提供了高效、准确的解决方案。从本质上来说，HuggingGPT是一个使用ChatGPT作为任务规划器的框架，ChatGPT 可根据模型的描述选择 HuggingFace 平台中可用的模型，使其能够处理来自不同模态的输入，并根据执行结果总结响应结果。
 

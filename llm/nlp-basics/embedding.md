@@ -21,11 +21,11 @@ description: 词嵌入、静态编码与动态编码方法详解
 
 包括Skip-Gram（SG）和CBOW两种模型。**SG模型需要根据目标词来预测上下文的词**（即目标词左右的词，称为Context）；而**CBOW相反，需要根据Context来预测目标词**，准确来说，是使用规定窗口范围内的Context的平均（或求和）来预测目标词。
 
-![Image](images/image_0066.png)
+![Image](images/image_0066.webp)
 
 SG模型
 
-![Image](images/image_0067.png)
+![Image](images/image_0067.webp)
 
 CBOW模型
 
@@ -35,7 +35,7 @@ CBOW模型
 
 - **训练效果不同**。SG适用于相对少量的训练数据，对于稀有词的效果更好（可以得到表征能力很好的嵌入向量）。**CBOW比SG的训练速度快了几倍**，并且因为CBOW中对Context取平均，模型会预测更经常出现的单词，常用词的表征效果要比SG好一点。
 
-![Image](images/image_0068.png)
+![Image](images/image_0068.webp)
 
 > **Word2Vec的缺点和解决方法：**
 
@@ -92,7 +92,7 @@ $$f(x) = \begin{cases} (x/x_{\max})^\alpha & \text{if } x < x_{\max} \\ 1 & \tex
 
 ELMO采用典型的两阶段过程：**第一个阶段是利用语言模型进行预训练；第二个阶段是在做下游任务时，从预训练网络中提取对应单词的网络各层的词嵌入作为新特征补充到下游任务中。**
 
-![Image](images/image_0071.png)
+![Image](images/image_0071.webp)
 
 - 预训练采用双层双向LSTM，训练任务是根据上下文预测目标单词。左端的前向双层LSTM代表正方向编码器，输入的是从左到右顺序的除了预测单词外的上文（Context-before）；右端的逆向双层LSTM代表反方向编码器，输入的是从右到左的逆序的句子下文（Context-after）；每个编码器的深度都是两层LSTM叠加。采用这样的网络，可以得到三个嵌入向量，分别是**最底层单词的嵌入向量、句法特征的嵌入向量和语义特征的嵌入向量。**
 
@@ -102,11 +102,11 @@ ELMO采用典型的两阶段过程：**第一个阶段是利用语言模型进�
 
 ### GPT
 
-![Image](images/image_0072.png)
+![Image](images/image_0072.webp)
 
 也是采用两阶段训练。区别是采用了Transformer，特征提取能力强于LSTM；**并且预训练是单向训练，即只用上文不用下文**。在微调阶段，GPT的损失函数要考虑语言模型的损失（即Decoder利用前$k-1$个词预测第$k$个词的最大对数似然估计，对$k \in [1, n]$求和）以及具体任务的损失。此外，ELMO可以用其他任务的模型，而**GPT要求所有的任务都用自身的框架**，在此基础上进行微调，对于不同的任务会有不同的处理方法：
 
-![Image](images/image_0073.png)
+![Image](images/image_0073.webp)
 
 在序列前后增加两个特殊Token——"START"和"EXTRACT"，分别表示开始和结束；而如果输入是两个序列，那么在它们中间增加一个特殊的Token"DELIM"。比如蕴含任务（Entailment），输入是前提（Premise）和假设（Hypothesis），输出是3个分类标签中的一个。如果是相似度计算，因为对称性，我们把它们交换顺序，然后输入两个Transformer。如果是多选题，比如给定一个问题和$N$个答案，那么我们可以把问题和$N$个答案分别输入$N$个Transformer。
 
@@ -120,11 +120,11 @@ BERT采用与GPT一样的训练方式，区别是采用双向语言模型，用M
 
 BERT模型的输入包含三部分：**词嵌入、位置编码嵌入和Segment嵌入**（为了将多个句子区分，属于第一个句子的用0，第二个句子用1）。
 
-![Image](images/image_0074.png)
+![Image](images/image_0074.webp)
 
 BERT对不同的下游任务也有格式转换方法：
 
-![Image](images/image_0075.png)
+![Image](images/image_0075.webp)
 
 **对比ELMO、GPT和BERT**：
 
@@ -148,7 +148,7 @@ BERT对不同的下游任务也有格式转换方法：
 
 - **优点**：这种方法的优势在于它具有较高的计算效率，因为查询和文档的编码是独立进行的，适合用于大规模数据集。通常，使用双编码器进行检索时，检索过程会非常快速。
 
-![Image](images/image_0076.png)
+![Image](images/image_0076.webp)
 
 **稀疏嵌入模型（Sparse Embedding Model）**
 
@@ -174,7 +174,7 @@ BGE训练的3个阶段：
 
 BGE v1由6个模型组成，每种语言有'large'、'base'和'small'三款不同规模的模型。用户可根据需求平衡挑选更大能力更强的模型，或更小速度更快的模型。
 
-![Image](images/image_0077.png)
+![Image](images/image_0077.webp)
 
 后面又出了v1.5版本，主要缓解了相似度分布问题，并提升无指令情况下的检索能力。
 
@@ -186,11 +186,11 @@ BGE v1由6个模型组成，每种语言有'large'、'base'和'small'三款不�
 
 在训练过程中，模型的损失函数由两部分组成：一是**Encoder的MLM（Masked Language Modeling）**损失，负责通过掩码预测来学习语言的语法和语义；二是**Decoder的重建损失**，负责根据掩码的输入和Encoder的句子向量来恢复原始句子。整个模型的优化目标是同时最小化这两种损失。
 
-![Image](images/image_0078.png)
+![Image](images/image_0078.webp)
 
 工作流程如下：
 
-![Image](images/image_0079.png)
+![Image](images/image_0079.webp)
 
 通过三步构建了一个逐步细化的自监督学习框架：
 
@@ -210,7 +210,7 @@ $$H_2 \leftarrow [h_{\bar{x}}, e_{x_1} + p_1, \ldots, e_{x_N} + p_N] \tag{5}$$
 
 在Enhanced Decoder中，除了第一行，**每个Token都可以看见第一个元素和随机采样的词**，对角线位置也是一定会被Mask掉的，最后得到每个Token的Context Vector。在计算注意力时，**通过Mask机制使得每个掩码Token能够使用不同部分的上下文**。这样做的目的是增加模型的复杂度，并提升其**泛化能力**。如下图所示：
 
-![Image](images/image_0081.png)
+![Image](images/image_0081.webp)
 
 **Q：为什么编码器和解码器是非对称的？**
 
@@ -258,7 +258,7 @@ $$\mathcal{L} = - \log \frac{\exp(\text{sim}(e_p, e_q) / \tau)}{\exp(\text{sim}(
 
 训练过程主要分为两个阶段：**弱监督预训练**和**有监督微调**。
 
-![Image](images/image_0083.png)
+![Image](images/image_0083.webp)
 
 **一、弱监督预训练**
 
@@ -320,7 +320,7 @@ $$\mathcal{L} = - \log \frac{\exp(\text{sim}(e_p, e_q) / \tau)}{\exp(\text{sim}(
 
 - **Dynamic-HNM**：在负例学习完成后自动替换新负例，使负例得分继续下降。
 
-![Image](images/image_0084.png)
+![Image](images/image_0084.webp)
 
 **跨GPU的Batch均衡训练**（Cross-GPU Batch Balancing，CBB）
 
@@ -370,7 +370,7 @@ $$\mathcal{L}_{\text{CBB}} = -\frac{1}{n} \sum_{i} \log \frac{\exp(s(x_i, y_i^+)
 
 - 各任务如何在单次迭代中计算Loss并合并。
 
-![Image](images/image_0086.png)
+![Image](images/image_0086.webp)
 
 ## 如何选择合适的嵌入模型
 

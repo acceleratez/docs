@@ -515,7 +515,7 @@ public void unionElements(int p, int q){
 }
 ```
 
-![img](https://www.runoob.com/wp-content/uploads/2020/10/size-01.png)
+![img](https://www.runoob.com/wp-content/uploads/2020/10/size-01.webp)
 
 ### `size`的优化
 
@@ -565,7 +565,7 @@ public class UnionFind3{
 
 然而，上面的方法还是存在一些问题：如对于下面的例子，如果使用上述方法来操作`union(4,2)`，则层数反而还会增多。这样，对于较深的元素的合并请求，效率就比较低下。
 
-![img](https://www.runoob.com/wp-content/uploads/2020/10/rank-01.png)
+![img](https://www.runoob.com/wp-content/uploads/2020/10/rank-01.webp)
 
 更准确的是，根据两个集合层数，具体判断根节点的指向，层数少的集合根节点指向层数多的集合根节点。这就是`rank`优化。
 

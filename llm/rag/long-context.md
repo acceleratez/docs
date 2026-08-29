@@ -9,7 +9,7 @@ description: 长上下文模型、位置编码扩展、提示压缩
 
 现实中的如文档摘要、多轮对话等任务，需要 LLM 理解长文本序列，否则模型的 Perplexity（困惑度）将显著上升。但是长上下文将增加计算成本，且对显存需求更高。
 
-![Image](images/image_0403.png)
+![Image](images/image_0403.webp)
 
 上图摘自论文《Beyond the Limits: A Survey of Techniques to Extend the Context Length in Large Language Models》，将长上下文方法分为 5 类：
 
@@ -79,7 +79,7 @@ PI 通过直接将位置索引缩小，这对于 RoPE 等位置编码更合适�
 
 - 区别于线性内插，PI 仍保留了 4096 个位置索引，只不过索引之间距离变成 0.5，而前者只有 2048 个索引，多出来的索引被压缩到了最后一位。
 
-![Image](images/image_0407.png)
+![Image](images/image_0407.webp)
 
 使用 PI 后，位置 $m$ 缩放成了 $\frac{mL}{L'}$，$L$ 是训练的上下文长度（2048），$L'$ 是推理时需要扩展到的长度（4096），对应的 $q$ 和 $k$ 计算时变成了 $f(x, \frac{mL}{L'})$。使用 PI 后的微调只需要少量用例且对用例不敏感，原因在于模型在微调阶段仅适应新的上下文窗口，从良好的初始化开始，而不是获取新的知识。只需要进行 1000 步微调就能显著降低 PPL。
 
@@ -152,7 +152,7 @@ $$\gamma(r) = \begin{cases}  0, & \text{if } r < \alpha \\  1, & \text{if } r > 
 
 - **短上下文窗口性能恢复：**在扩展到2048k上下文窗口后，LongRoPE通过调整RoPE位置插值因子来恢复短上下文窗口的性能。LongRoPE在扩展后的大模型上对8K长度内的RoPE缩放因子进行了重新搜索，以鼓励在较短上下文长度上进行较少的位置插值。在推理过程中，大模型可根据输入长度动态调整相应的 RoPE 缩放因子。
 
-![Image](images/image_0410.png)
+![Image](images/image_0410.webp)
 
 ## 上下文窗口分割
 
@@ -174,7 +174,7 @@ $$\text{PE}_{\text{PCW}}(pos + b \cdot C) = \text{PE}(pos), \quad b = 0, 1, \ldo
 
 PCW需要的计算复杂度正比于并行上下文数量B，但注意力矩阵很稀疏，多窗口并行的效率很高。
 
-![Image](images/image_0412.png)
+![Image](images/image_0412.webp)
 
 **PCW的缺点：**
 
@@ -240,7 +240,7 @@ PCW大致上就是Average Pooling版的NBCE，实测也发现它跟Average Pooli
 
 ### streaming-LLM
 
-![Image](images/image_0424.png)
+![Image](images/image_0424.webp)
 
 - a) **密集注意力**：时间复杂度为O($T^2$),当推理文本超过预训练长度时，困惑度大幅度上升
 
@@ -272,7 +272,7 @@ $$\alpha_{ij} = \frac{e^{a_{ij}}}{1 + \sum_{k=1}^{N} e^{a_{ik}}}$$
 
 如下图所示，右下角的prompt提示压缩能有效解决这些问题，只保留prompt中有价值的token。
 
-![Image](images/image_0427.png)
+![Image](images/image_0427.webp)
 
 prompt压缩主要可以分为以下几类：
 
@@ -312,7 +312,7 @@ $I(x)=-\log_2p(x)$
 
 ### LLMLingua
 
-![Image](images/image_0428.png)
+![Image](images/image_0428.webp)
 
 **问题定义**：$\hat{x}$和x分别表示压缩后和压缩前的prompt，$\hat{x_G}$和$x_G$分别表示压缩后和压缩前的LLM的输出。训练目标是最小化压缩前输出和压缩后输出分布之间的差距：
 
@@ -388,7 +388,7 @@ $\min_{\theta_s} \mathbb{E} \left[ \frac{1}{N} \sum_{i=1}^{N} \mathcal{L} \left(
 
 LLMLingua 在压缩过程中没有考虑用户查询，可能会保留不相关的信息。LongLLMLingua通过将用户问题纳入压缩过程来解决这个问题。再LLMLingua的基础上，做了以下的改进：
 
-![Image](images/image_0435.png)
+![Image](images/image_0435.webp)
 
 #### 基于问题的粗粒度压缩
 
@@ -434,13 +434,13 @@ where $i$ and $k$ is the index of token and document, $K'$ denotes the number of
 
 - 将大语言模型(LLMs)响应内容中的相应词元 $\hat y_{key,l}$ 替换为原始的 $x_{i,j}$。
 
-![Image](images/image_0440.png)
+![Image](images/image_0440.webp)
 
 ### AutoCompressor
 
 通过增加词汇量和利用"summary tokens"和"summary vectors"来提炼大量上下文信息，进而精调现有的模型结构。具体来说，通过递归生成 summary vectors 来处理长文档，这些 summary vectors 作为**软提示词（soft prompts）**被传递给后续的所有文档片段。
 
-![Image](images/image_0441.png)
+![Image](images/image_0441.webp)
 
 **训练流程**：
 

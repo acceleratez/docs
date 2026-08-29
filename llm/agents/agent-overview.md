@@ -78,7 +78,7 @@ LLM Agent 的核心优势在于：
 
 - **Action（行动）：**基于Brain给出的决策进行下一步行动，对于Agent来说，行动主要包括对外部工具的API 调用，或者对物理控制组件的信号输出。
 
-![Image](images/image_0468.png)
+![Image](images/image_0468.webp)
 
 从功能的角度来看，Agent 就像一个多功能的接口，它能够接触并使用一套工具。根据用户的输入，Agent会规划出一条解决用户问题的路线，决定其中需要调用哪些工具，并调用这些工具。Agent = 大语言模型+规划+记忆+工具使用，具备以下关键能力：
 
@@ -96,7 +96,7 @@ LLM Agent 的核心优势在于：
 
 - **工具使用（Tools）**：通过调用外部工具（如API、插件）扩展Agent的能力，如文档解析、代码编译等。
 
-![Image](images/image_0469.png)
+![Image](images/image_0469.webp)
 
 ## Agent 开发框架详细对比
 

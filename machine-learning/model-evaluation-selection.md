@@ -15,7 +15,7 @@
 
 可以得知：在过拟合问题中，训练误差十分小，但测试误差教大；在欠拟合问题中，训练误差和测试误差都比较大。目前，欠拟合问题比较容易克服，例如增加迭代次数等，但过拟合问题还没有十分好的解决方案，过拟合是机器学习面临的关键障碍。
 
-![](https://i.loli.net/2018/10/17/5bc7181172996.png)
+![](https://i.loli.net/2018/10/17/5bc7181172996.webp)
 
 可大致这样理解：机器学习面临的问题通常是NP-Hard甚至更难，而有效的学习算法必然是在多项式时间内运行完成，若可彻底避免过拟合，则通过经验误差最小化就能获最优解，这就意味着我们构造性地证明了 “$P=NP$” ；因此，只要相信“$P\neq NP$” ，过拟合就不可避免。
 
@@ -46,7 +46,7 @@
 
 1. 将数据集D划分为k个大小相同的互斥子集，满足$D=\bigcup\limits_{i=1}^{k}D_i$，$D_i\cap D_j=\emptyset (i\ne j)$，同样地尽可能保持数据分布的一致性，即采用分层抽样的方法获得这些子集。交叉验证法的思想是：每次用k-1个子集的并集作为训练集，余下的那个子集作为测试集，这样就有K种训练集/测试集划分的情况，从而可进行k次训练和测试，最终返回k次测试结果的均值。交叉验证法也称“k折交叉验证”，k最常用的取值是10，下图给出了10折交叉验证的示意图。
 
-![](https://i.loli.net/2018/10/17/5bc718115d224.png)
+![](https://i.loli.net/2018/10/17/5bc718115d224.webp)
 
 与留出法类似，将数据集D划分为K个子集的过程具有随机性，因此K折交叉验证通常也要重复p次，称为p次k折交叉验证，常见的是10次10折交叉验证，即进行了100次训练/测试。特殊地当划分的k个子集的每个子集中只有一个样本时，称为“留一法（Leave-One-Out）”，显然，留一法的评估结果比较准确，但对计算机的消耗也是巨大的。
 
@@ -300,13 +300,13 @@ $$
 
 接下来我们还是跟二项检验一样，设定一个置信度$\alpha$，在正态分布曲线两边的$\dfrac{\alpha}{2}$处各取一个明显错误区间，如图所示：
 
-![](https://img-blog.csdnimg.cn/9a6c3c1db67141da90f300509f5dc770.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![](https://img-blog.csdnimg.cn/9a6c3c1db67141da90f300509f5dc770.webp?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 然后假设一个阈值区间 $\mu = e'$，计算白色图像曲线下的定积分（条形统计图计算方法参照二项检验），将两个假设做一个对比，如果 $e'$在置信度$\alpha$推出的区间内，则说明是可接受的。
 
 双边t检验常用的临界值表：
 
-![](https://img-blog.csdnimg.cn/1e2a8d7d6e974d12a8ab9654db72ba08.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![](https://img-blog.csdnimg.cn/1e2a8d7d6e974d12a8ab9654db72ba08.webp?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 这一部分的总体过程跟二项检验很相似，除了公式和分布曲线不一样，其余的步骤都是可以仿照二项检验的步骤的，这里就不再赘述。
 
@@ -343,7 +343,7 @@ $$
 这个检验方法的主要思路是针对两个二分类学习器的分类结果列出列联表，然后推出两个学习器性能差别的卡方分布函数，再作假设检验；接下来大致的描述一下这个方法的步骤：
 
 *   首先对A、B两个学习器的二分类结果列出列联表：  
-    ![](https://img-blog.csdnimg.cn/cd0d80dc6a3648b6a543d710f7f13c6d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_19,color_FFFFFF,t_70,g_se,x_16#pic_center)
+    ![](https://img-blog.csdnimg.cn/cd0d80dc6a3648b6a543d710f7f13c6d.webp?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_19,color_FFFFFF,t_70,g_se,x_16#pic_center)
     
 *   然后取$|e_{01} - e_{10}|$，这个变量服从正态分布；这个检验方法考虑变量
 *   
@@ -360,7 +360,7 @@ $$
 
 F检验法的基本思想是在同一组数据集上，根据测试结果对学习器的性能进行排序，赋予序值1,2,3…，相同则平分序值，如下图所示：
 
-![](https://img-blog.csdnimg.cn/7514bd51c0694f0883fc1f12d60ad56c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![](https://img-blog.csdnimg.cn/7514bd51c0694f0883fc1f12d60ad56c.webp?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 性能越好，赋予的值就越小，然后计算出每个算法在各个数据集上的平均序值$r_i$。
 
@@ -378,7 +378,7 @@ $$
 
 $T_{X^2}$为原始Friedman检验分布函数，$T_F$为F检验分布函数；这个算法中，西瓜书明确的给了一个临界值表：
 
-![](https://img-blog.csdnimg.cn/4cead8aef6194e65a653a86b5d6224f4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![](https://img-blog.csdnimg.cn/4cead8aef6194e65a653a86b5d6224f4.webp?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 是否可接受的检验仍然同上。
 
@@ -394,7 +394,7 @@ $T_{X^2}$为原始Friedman检验分布函数，$T_F$为F检验分布函数；这
 > $$
 > 其中$q_{\alpha}$值的取值表如下：
 >
-> ![](https://img-blog.csdnimg.cn/97513bea27024df1b36960fd3a4c901e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+> ![](https://img-blog.csdnimg.cn/97513bea27024df1b36960fd3a4c901e.webp?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LyK5ru05bCP5pyL5Y-L,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 >
 > 如果两个序值之差大于CD值，那么平均序值小的算法在一定程度上是要优于平均序值大的算法。
 
@@ -463,4 +463,4 @@ $T_{X^2}$为原始Friedman检验分布函数，$T_F$为F检验分布函数；这
 
    2. 偏差-方差窘境(Bias-variance Dilemma)：方差和偏差具有矛盾性，这就是常说的偏差-方差窘境，随着训练程度的提升，期望预测值与真实值之间的差异越来越小，即偏差越来越小，但是另一方面，随着训练程度加大，学习算法对数据集的波动越来越敏感，方差值越来越大。
 
-      ![13.png](https://i.loli.net/2018/10/17/5bc722234b09f.png)
+      ![13.webp](https://i.loli.net/2018/10/17/5bc722234b09f.webp)

@@ -563,7 +563,7 @@ $$
 
 4. Huffman编码树的构造过程——例子
 
-   ![img](https://oi-wiki.org/ds/images/huffman-tree-2.png)
+   ![img](https://oi-wiki.org/ds/images/huffman-tree-2.webp)
 
 5. 树的带权路径长度
 

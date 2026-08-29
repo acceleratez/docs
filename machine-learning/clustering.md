@@ -274,7 +274,7 @@ $\text{dist}(·,·)$用于计算两个样本之间的距离，距离越大则样
 
 * $k$ 均值算法：
 
-	![](https://img2.imgtp.com/2024/05/29/kYYE9SVd.png)
+	![](https://img2.imgtp.com/2024/05/29/kYYE9SVd.webp)
 
 * 为避免运行时间过长, 通常设置一个最大运行轮数或最小调整幅度阈值, 若达到最大轮数或调整幅度小于阈值, 则停止运行.
 
@@ -292,7 +292,7 @@ $\text{dist}(·,·)$用于计算两个样本之间的距离，距离越大则样
 
 * LVQ算法描述：
 
-	![](https://img2.imgtp.com/2024/05/29/AVWHXyKK.png)
+	![](https://img2.imgtp.com/2024/05/29/AVWHXyKK.webp)
 
 	* LVQ算法对原型向量进行初始化, 例如对第$q$个簇可从类别标记为$t_q$的样本中随机选取一个作为原型向量.
 * 在每一轮迭代中, 算法随机选取一个有标记训练样本, 找出与其最近的原型向量, 并根据两者的类别标记是否一致来对原型向量进行相应的更新.
@@ -444,7 +444,7 @@ $$
 
 * 高斯混合聚类算法描述
 
-    ![19.png](https://i.loli.net/2018/10/18/5bc84fb9c4fa4.png)
+    ![19.webp](https://i.loli.net/2018/10/18/5bc84fb9c4fa4.webp)
 
     * 第3-5行EM算法的E步, 第6-11行EM算法的M步.
     
@@ -482,7 +482,7 @@ $$
 
 * DBSCAN 算法描述
 
-	![22.png](https://i.loli.net/2018/10/18/5bc8509feb587.png)
+	![22.webp](https://i.loli.net/2018/10/18/5bc8509feb587.webp)
 
 ## 9.6.层次聚类
 
@@ -507,7 +507,7 @@ $$
 
 * AGNES 算法描述
 
-	![26.png](https://i.loli.net/2018/10/18/5bc8509f9d4a0.png)
+	![26.webp](https://i.loli.net/2018/10/18/5bc8509f9d4a0.webp)
 
 	* $d$ 通常使用$d_\min$, $d_\max$, $d_\text{avg}$.
 * $i^*<j^*$.

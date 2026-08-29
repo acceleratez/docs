@@ -11,7 +11,7 @@ description: 模型上下文协议
 
 能调用外部工具，是大模型进化为智能体Agent的关键，如果不能使用外部工具，大模型就只能是个简单的聊天机器人，甚至连查询天气都做不到。**Function calling**就是解决这一问题的，作为大模型和外部工具之间的中介，使得大模型能间接的调用外部工具。根据用户的问题判定何时需要调用外部工具，并以结构化 JSON 输出调用信息，外部系统据此执行相应操作，再将结果回传给模型，最终由模型基于真实数据生成回答。
 
-![Image](images/image_0506.png)
+![Image](images/image_0506.webp)
 
 接下来结合Qwen模型介绍Function call的流程，首先定义了一个查询当前天气的函数：
 
@@ -80,7 +80,7 @@ description: 模型上下文协议
 
 MCP 着力解决智能体开发中一个核心痛点 —— 外部工具调用的技术门槛过高问题。由于大型语言模型自身缺乏与外部工具直接通信的能力，传统开发中只能依赖 "函数调用"（Function calling）作为中介桥梁，由大模型间接触发外部函数执行：
 
-![Image](images/image_0507.png)
+![Image](images/image_0507.webp)
 
 编写Function calling函数工作量很大（随便一个函数就要100+行代码），并且为了让大模型理解这个函数，需要用Json Schema格式编写功能说明，并设计提示词模板。
 
@@ -125,7 +125,7 @@ Function名字和功能，以及入参类型、参数可选值、是否必须和
    }
 ```
 
-![Image](images/image_0508.png)
+![Image](images/image_0508.webp)
 
 MCP统一了Function calling的运行规范：
 
@@ -133,7 +133,7 @@ MCP统一了Function calling的运行规范：
 
 - 然后，统一MCP客户端和服务器的运行规范，并且要求MCP客户端和服务器之间，也统一按照某个既定的提示词模板进行通信。
 
-![Image](images/image_0509.png)
+![Image](images/image_0509.webp)
 
 使用MCP的好处在于可以避免外部函数重复编写。 像查询天气、网页爬取、查询本地MySQL数据库这种通用的需求，只需要开发一个服务器就好，后续的开发者可以直接调用服务而不用重新实现。MCP开发工具支持Python、TS和Java等多种语言。想要使用MCP服务器就要构建MCP客户端（支持任意本地和在线大模型，甚至是Cursor）。而如果没有所需要的MCP服务器，就要自己开发，下面的代码给出了一个简单的服务器示例
 
@@ -158,9 +158,9 @@ def get greeting(name:str)->str:
 
 下图形象的对比了Function calling调用API和使用MCP的差异，MCP就像转接口，将多种多样的API封装成统一格式的mcp server，允许client端的大模型调用。
 
-![Image](images/image_0510.png)
+![Image](images/image_0510.webp)
 
-![Image](images/image_0511.png)
+![Image](images/image_0511.webp)
 
 > MCP是一种更底层的Agent开发框架，与之前介绍的[Agent开发框架](https://fp9qo5yj6d.feishu.cn/docx/AN61dRfiWoRUiRxhc6ucbmJwnGr#share-LttcdLPg7ojkvLxvjPHcZm9En5c)不冲突。
 

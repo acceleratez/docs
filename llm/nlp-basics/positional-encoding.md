@@ -85,7 +85,7 @@ class PositionalEncoding(nn.Module):
 
 在计算注意力时，对前边位置的分数进行惩罚，如图所示：
 
-![Image](images/image_0045.png)
+![Image](images/image_0045.webp)
 
 - 传统的绝对位置编码在训练时会为每个位置分配一个固定的向量，模型可能会过度拟合这些特定长度的模式。而**ALiBi通过在注意力分数计算中直接使用线性偏置，减少了模型对特定序列长度的依赖，从而提高了对未见过的序列长度的泛化能力。**
 
@@ -140,7 +140,7 @@ RoPE实现了绝对位置编码和相对位置编码的统一，它**通过绝�
 
 RoPE保持了序列长度的灵活性、随相对距离的增加而衰减的Token间依赖性。其原理如下图，针对词嵌入维度$d_{\text{model}}$为2的情况，$x_m^{'}$表示经过RoPE后的结果：
 
-![Image](images/image_0052.png)
+![Image](images/image_0052.webp)
 
 ### 从内积的角度推导
 
@@ -185,7 +185,7 @@ $d$一定是偶数。
 
 结合代码来看，在ChatGLM中，因为内积计算与顺序无关，巧妙地将所有负数和正数分开。
 
-![Image](images/image_0057.png)
+![Image](images/image_0057.webp)
 
 ### 从公式的角度推导
 
